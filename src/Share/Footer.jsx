@@ -9,7 +9,7 @@ const Footer = () => {
         
         {/* Brand */}
         <div>
-          <h2 className="text-2xl font-bold text-primary mb-2">EduManage</h2>
+          <h2 className="text-2xl font-bold text-primary mb-2">Borak Polytechnic Institute</h2>
           <p className="text-sm leading-relaxed">
             Empowering students and teachers through seamless online class & learning management.
           </p>
@@ -32,7 +32,7 @@ const Footer = () => {
       </div>
 
       <div className="text-center mt-10 border-t border-base-300 pt-6 text-sm">
-        © {new Date().getFullYear()} EduManage. All rights reserved.
+        © {new Date().getFullYear()} Borak Polytechnic Institute. All rights reserved.
       </div>
     </footer>
   );

@@ -1,22 +1,30 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
+import { AuthContext } from "../AuthProvider/AuthProvider";
 import GoogleLoginButton from "./GoogleLoginButton ";
 
 
 const Login = () => {
+  const { Login } = useContext(AuthContext);
+      const navigate = useNavigate();
+  const location = useLocation();
+
   const {
     register,
     handleSubmit,
-    reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log("Login Data:", data);
-    // 👉 এখানে Firebase/Auth দিয়ে login করতে পারো
-     reset();
-};
+  const onSubmit = async (data) => {
+    try {
+      await Login(data.email, data.password);
+      console.log("Login Success!");
+        navigate(`${location.state ? location.state : "/"}`);
+    } catch (error) {
+      console.error("Login Failed:", error.message);
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-base-200 px-4">
@@ -37,10 +45,6 @@ const Login = () => {
               className="input input-bordered w-full"
               {...register("email", {
                 required: "Email is required",
-                pattern: {
-                  value: /^\S+@\S+$/i,
-                  message: "Invalid email address",
-                },
               })}
             />
             {errors.email && (
@@ -70,8 +74,12 @@ const Login = () => {
             )}
           </div>
 
-          {/* Login Button */}
-          <button type="submit" className="btn btn-primary w-full">
+          {/* Submit */}
+          <button
+            type="submit"
+            className={`btn btn-primary w-full ${isSubmitting ? "loading" : ""}`}
+            disabled={isSubmitting}
+          >
             Login
           </button>
         </form>
@@ -79,14 +87,14 @@ const Login = () => {
         {/* Divider */}
         <div className="divider">OR</div>
 
-        {/* ✅ Google Login Button */}
+        {/* Google Login */}
         <GoogleLoginButton />
 
-        {/* Bottom Link */}
+        {/* Register Link */}
         <div className="flex justify-center gap-2 mt-4 text-sm">
-          Don’t have an account?{" "}
+          New here?{" "}
           <Link to="/register" className="text-blue-600 hover:underline">
-            Register here
+            Create an account
           </Link>
         </div>
       </div>

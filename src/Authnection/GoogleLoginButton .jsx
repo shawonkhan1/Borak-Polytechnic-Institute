@@ -1,10 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FcGoogle } from "react-icons/fc";
+import { AuthContext } from "../AuthProvider/AuthProvider";
+import { useLocation, useNavigate } from "react-router";
+
 
 const GoogleLoginButton = () => {
+  const { googleLogin } = useContext(AuthContext);
+    const navigate = useNavigate();
+  const location = useLocation();
   const handleClick = () => {
-    console.log("Google Login Clicked");
-    // 👉 পরে এখানে Firebase/Auth call করবে
+    googleLogin()
+      .then(result => {
+        console.log("Google Login Success:", result.user);
+          navigate(`${location.state ? location.state : "/"}`);
+        // এখানে তুমি চাইলে ইউজার ডাটা সেভ করতে পারো বা রিডাইরেক্ট করতে পারো
+      })
+      .catch(error => {
+        console.error("Google Login Error:", error.message);
+      });
   };
 
   return (

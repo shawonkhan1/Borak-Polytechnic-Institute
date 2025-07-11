@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router"; // ✅ correct import
+import axios from "axios";
+import { AuthContext } from "../AuthProvider/AuthProvider";
 import GoogleLoginButton from "./GoogleLoginButton ";
-
+ // ✅ fixed path
+// ✅ optional: use toast if needed
 
 const Register = () => {
+  const { createUser, updateUserProfiles } = useContext(AuthContext);
+     const navigate = useNavigate();
+  const location = useLocation();
   const {
     register,
     handleSubmit,
@@ -26,35 +32,32 @@ const Register = () => {
   const onSubmit = async (data) => {
     try {
       const imageFile = data.image[0];
-
       const formData = new FormData();
       formData.append("image", imageFile);
 
       const imgbbAPIKey = import.meta.env.VITE_IMGBB_API_KEY;
 
-      const res = await fetch(
+      const response = await axios.post(
         `https://api.imgbb.com/1/upload?key=${imgbbAPIKey}`,
-        {
-          method: "POST",
-          body: formData,
-        }
+        formData
       );
 
-      const imgData = await res.json();
+      if (response.data.success) {
+        const imageUrl = response.data.data.url;
 
-      if (imgData.success) {
-        const imageUrl = imgData.data.url;
-        console.log("Uploaded Image URL:", imageUrl);
+        // ✅ firebase registration
+        await createUser(data.email, data.password);
+        await updateUserProfiles(data.name, imageUrl);
 
+        // ✅ Final data log
         const finalUserData = {
           name: data.name,
           email: data.email,
-          password: data.password,
           photoURL: imageUrl,
         };
-
-        console.log("Final User Data:", finalUserData);
-
+        console.log("User Created:", finalUserData);
+        
+        navigate(`${location.state ? location.state : "/"}`);
         reset();
         setPreview(null);
       } else {
@@ -72,7 +75,7 @@ const Register = () => {
           Create Account
         </h2>
 
-        {/* Image Preview */}
+        {/* ✅ Image Preview */}
         {preview && (
           <div className="flex justify-center mb-4">
             <img
@@ -118,7 +121,9 @@ const Register = () => {
               })}
             />
             {errors.email && (
-              <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.email.message}
+              </p>
             )}
           </div>
 
@@ -140,7 +145,9 @@ const Register = () => {
               })}
             />
             {errors.password && (
-              <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.password.message}
+              </p>
             )}
           </div>
 
@@ -154,18 +161,22 @@ const Register = () => {
               className="file-input file-input-bordered w-full"
               {...register("image", {
                 required: "Image is required",
-                onChange: handleImageChange,
               })}
+              onChange={handleImageChange} // ✅ handled properly
             />
             {errors.image && (
-              <p className="text-red-500 text-sm mt-1">{errors.image.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.image.message}
+              </p>
             )}
           </div>
 
           {/* Submit Button */}
           <button
             type="submit"
-            className={`btn btn-primary w-full ${isSubmitting ? "loading" : ""}`}
+            className={`btn btn-primary w-full ${
+              isSubmitting ? "loading" : ""
+            }`}
             disabled={isSubmitting}
           >
             Register
@@ -175,7 +186,7 @@ const Register = () => {
         {/* Divider */}
         <div className="divider">OR</div>
 
-        {/* Google Login Button */}
+        {/* Google Login */}
         <GoogleLoginButton />
 
         {/* Bottom Link */}

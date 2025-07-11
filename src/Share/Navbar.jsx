@@ -1,26 +1,27 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
+import { FaSun, FaMoon, FaBars, FaTimes } from "react-icons/fa";
+import { Link } from "react-router"; // react-router-dom এ পরিবর্তন
+import NavLinks from "./Links"; // NavLinks: লিঙ্কগুলোর কম্পোনেন্ট
+import { AuthContext } from "../AuthProvider/AuthProvider";
 
-import { FaSun, FaMoon } from "react-icons/fa";
-import NavLinks from "./Links";
-import { Link } from "react-router";
-
-const Navbar = ({ user, onLogout }) => {
+const Navbar = () => {
+  const { user, Logout } = useContext(AuthContext);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
-  const [theme, setTheme] = useState(
-    localStorage.getItem("theme") || "light"
-  );
 
-  // থিম লোড & সেট করা
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+
+  // থিম সেটিং
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  // ক্লিক আউটসাইডে ড্রপডাউন বন্ধ
+  // ক্লিক আউটসাইডে dropdown বন্ধ করা
   useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setDropdownOpen(false);
       }
     };
@@ -28,28 +29,36 @@ const Navbar = ({ user, onLogout }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // theme toggole
   const toggleTheme = () => {
     setTheme((prev) => (prev === "light" ? "dark" : "light"));
   };
 
+  // (desktop ও mobile)
+  const menuLinks = (
+    <>
+      <NavLinks />
+    </>
+  );
+
   return (
-    <nav className="navbar bg-base-100 shadow-md sticky top-0 z-50 p-4 flex justify-between items-center">
+    <nav className="bg-base-100 shadow-md sticky top-0 z-50 px-4 py-3 flex items-center justify-between">
       {/* Logo */}
       <div
         className="text-2xl font-extrabold cursor-pointer text-primary"
         onClick={() => (window.location.href = "/")}
       >
-        EduManage
+        BPI
       </div>
 
-      {/* Nav Links */}
-      <div className="hidden md:flex font-semibold text-lg">
-        <NavLinks />
+      {/* Desktop Nav Links */}
+      <div className="hidden md:flex items-center font-semibold text-lg space-x-6">
+        {menuLinks}
       </div>
 
-      {/* Theme toggle + User */}
-      <div className="flex items-center gap-4">
-        {/* Theme Toggle Button */}
+      {/* Right Section: Theme toggle + User + Mobile menu button */}
+      <div className="flex items-center space-x-4">
+        {/* Theme Toggle */}
         <button
           onClick={toggleTheme}
           className="btn btn-ghost btn-square tooltip tooltip-bottom"
@@ -65,43 +74,51 @@ const Navbar = ({ user, onLogout }) => {
 
         {/* User Section */}
         {!user ? (
-         <Link to='/register'>
-         <button className="btn btn-primary">SignIN</button>
-         </Link>
+          <Link to="/register">
+            <button className="btn btn-primary">Sign In</button>
+          </Link>
         ) : (
-          <div className="dropdown dropdown-end relative" ref={dropdownRef}>
-            <label
-              tabIndex={0}
-              className="btn btn-ghost btn-circle avatar"
+          <div className="relative" ref={dropdownRef}>
+            <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
+              className="btn btn-ghost btn-circle avatar"
+              aria-label="User Menu"
             >
-              <div className="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+              <div className="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 overflow-hidden">
                 <img src={user.photoURL} alt="profile" />
               </div>
-            </label>
+            </button>
 
+            {/* Dropdown menu */}
             {dropdownOpen && (
-              <ul className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-                <li>
-                  <span className="font-bold cursor-default">
-                    {user.displayName}
-                  </span>
+              <ul className="absolute right-0 mt-2 w-48 bg-base-100 border border-gray-300 rounded-md shadow-lg z-50">
+                <li className="px-4 py-2 font-bold border-b">
+                  {user.displayName}
                 </li>
                 <li>
-                  <a
-                    href="/dashboard"
-                    className="hover:text-primary"
+                  <Link
+                    to="/profile"
+                    className="block px-4 py-2 hover:bg-gray-100 hover:text-black"
+                    onClick={() => setDropdownOpen(false)}
+                  >
+                    Profile
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/dashboard"
+                    className="block px-4 py-2 hover:bg-gray-100 hover:text-black"
                     onClick={() => setDropdownOpen(false)}
                   >
                     Dashboard
-                  </a>
+                  </Link>
                 </li>
                 <li>
                   <button
-                    className="text-red-600"
+                    className="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100 hover:text-black"
                     onClick={() => {
                       setDropdownOpen(false);
-                      onLogout();
+                      Logout();
                     }}
                   >
                     Logout
@@ -111,7 +128,38 @@ const Navbar = ({ user, onLogout }) => {
             )}
           </div>
         )}
+
+        {/* Mobile menu button */}
+        <button
+          className="md:hidden btn btn-ghost btn-square"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle Menu"
+        >
+          {mobileMenuOpen ? (
+            <FaTimes className="w-6 h-6" />
+          ) : (
+            <FaBars className="w-6 h-6" />
+          )}
+        </button>
       </div>
+
+      {/* Mobile menu (small screens) */}
+      {mobileMenuOpen && (
+        <div className="md:hidden absolute top-full left-0 w-full bg-base-100 shadow-md border-t border-gray-200 z-40">
+          <div className="flex flex-col space-y-1 p-4">
+            {menuLinks}
+            {/* যদি login না করা থাকে তাহলে এখানে সাইন ইন বাটন আরেকবার রাখতে পারো */}
+            {!user && (
+              <Link
+                to="/register"
+                className="btn btn-primary w-full text-center mt-2"
+              >
+                Sign In
+              </Link>
+            )}
+          </div>
+        </div>
+      )}
     </nav>
   );
 };

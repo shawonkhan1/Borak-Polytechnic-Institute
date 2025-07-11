@@ -6,6 +6,9 @@ import HomeLayout from "../Home/HomeLayout";
 import HomePage from "../Home/HomePage";
 import Register from "../Authnection/Register";
 import Login from "../Authnection/Login";
+import UserProfile from "../Page/UserProfile";
+import UpdateProfile from "../Page/UpdateProfile";
+import PrivateRoute from "../Private/PrivateRoute";
 
 
 export const router = createBrowserRouter([
@@ -29,6 +32,18 @@ export const router = createBrowserRouter([
         {
             path:'/login',
             Component: Login
+        },
+        {
+            path:'/profile',
+            element: <PrivateRoute>
+                <UserProfile></UserProfile>
+            </PrivateRoute>
+        },
+        {
+            path:'updateProfile',
+            element: <PrivateRoute>
+                <UpdateProfile></UpdateProfile>
+            </PrivateRoute>
         }
     ]
     
