@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 
 import { FaSun, FaMoon } from "react-icons/fa";
 import NavLinks from "./Links";
+import { Link } from "react-router";
 
 const Navbar = ({ user, onLogout }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -64,12 +65,9 @@ const Navbar = ({ user, onLogout }) => {
 
         {/* User Section */}
         {!user ? (
-          <button
-            onClick={() => (window.location.href = "/login")}
-            className="btn btn-primary"
-          >
-            Sign In
-          </button>
+         <Link to='/register'>
+         <button className="btn btn-primary">SignIN</button>
+         </Link>
         ) : (
           <div className="dropdown dropdown-end relative" ref={dropdownRef}>
             <label
