@@ -10,6 +10,17 @@ import ApplyTeacher from "../Page/ApplyTeacher";
 
 import DashBordLayouts from "../DashBord/DashBordLayouts";
 import TeacherRequestsTable from "../Page/TeacherRequestsTable";
+import AddClass from "../DashBord/AddClass";
+import RequstApporveClass from "../DashBord/RequstApporveClass";
+import MyClass from "../DashBord/Myclass";
+import UpdateMyClass from "../DashBord/UpdateMyClass";
+import MyClassDetils from "../DashBord/MyClassDetils";
+import DashProfile from "../DashBord/DashProfile";
+import AllClass from "../Page/AllClass";
+import AllClassDetails from "../Page/AllClassDetails";
+import Payment from "../Page/Payment";
+import MyEnrollClass from "../DashBord/MyEnrollClass";
+import MyEnrollClassDetails from "../DashBord/MyEnrollClassDetails";
 
 export const router = createBrowserRouter([
   {
@@ -23,7 +34,15 @@ export const router = createBrowserRouter([
       },
       {
         path: "/allclass",
-        element: <p>this is all class</p>,
+        Component: AllClass,
+      },
+      {
+        path: "/class/:id",
+        Component: AllClassDetails,
+      },
+      {
+        path: "/payments/:id",
+        Component: Payment,
       },
       {
         path: "/register",
@@ -73,26 +92,42 @@ export const router = createBrowserRouter([
         element: <TeacherRequestsTable />,
       },
       {
-        path:'profile',
-        element: <p>profile</p>
+        path: "profile",
+        Component: DashProfile,
       },
       {
-        path:'my-class',
-        element: <p className="text-4xl">my class</p>
+        path: "my-class",
+        Component: MyClass,
       },
       {
-        path:'add-class',
-        element: <p>add class</p>
+        path: "add-class",
+        Component: AddClass,
       },
       {
-        path:'my-enroll-class-details',
-        element: <p>my-enroll-class-details</p>
+        path: "my-enroll-class-details",
+        element: <p>my-enroll-class-details</p>,
       },
       {
-        path:'my-enroll-class',
-        element: <p>my enroll class</p>
-      }
-      
+        path: "my-enroll-class",
+        Component: MyEnrollClass,
+      },
+      {
+        path: "myenroll-class/:id",
+        Component: MyEnrollClassDetails,
+      },
+
+      {
+        path: "request-approve",
+        Component: RequstApporveClass,
+      },
+      {
+        path: "updateMyclass/:id",
+        element: <UpdateMyClass />,
+      },
+      {
+        path: "seeDetails/:id",
+        Component: MyClassDetils,
+      },
     ],
   },
 ]);

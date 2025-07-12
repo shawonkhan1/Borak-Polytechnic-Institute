@@ -1,28 +1,47 @@
 import React, { useState, useEffect } from "react";
 import { FaUsers, FaChalkboardTeacher, FaBookOpen } from "react-icons/fa";
-import useAxiosSecure from "../hooks/useAxiosSecure"; // তোমার path অনুযায়ী ঠিক করো
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const SummarySection = () => {
   const axiosSecure = useAxiosSecure();
 
   const [summaryData, setSummaryData] = useState({
     users: 0,
-    classes: 75,       // স্ট্যাটিক ভ্যালু
-    enrollments: 3400, // স্ট্যাটিক ভ্যালু
+    classes: 0,
+    enrollments: 0,
   });
 
   useEffect(() => {
+    // ✅ Load total users
     axiosSecure.get("/users")
       .then(res => {
         const usersCount = Array.isArray(res.data) ? res.data.length : 0;
-        setSummaryData(prev => ({
-          ...prev,
-          users: usersCount,
-        }));
+        setSummaryData(prev => ({ ...prev, users: usersCount }));
       })
       .catch(err => {
         console.error("Failed to fetch users:", err);
       });
+
+    // ✅ Load accepted classes only
+    axiosSecure.get("/classes")
+      .then(res => {
+        const acceptedClasses = res.data?.filter(cls => cls.status === "accepted") || [];
+        setSummaryData(prev => ({ ...prev, classes: acceptedClasses.length }));
+      })
+      .catch(err => {
+        console.error("Failed to fetch classes:", err);
+      });
+
+    // ✅ Load total enrollments from new route
+    axiosSecure.get("/enrollments/count-all")
+      .then(res => {
+        const enrollmentsCount = res.data?.count || 0;
+        setSummaryData(prev => ({ ...prev, enrollments: enrollmentsCount }));
+      })
+      .catch(err => {
+        console.error("Failed to fetch total enrollments count:", err);
+      });
+
   }, [axiosSecure]);
 
   return (
@@ -41,10 +60,10 @@ const SummarySection = () => {
             </p>
           </div>
 
-          {/* Classes */}
+          {/* Accepted Classes */}
           <div className="bg-green-100 rounded-xl p-6 shadow text-center hover:shadow-lg transition">
             <FaChalkboardTeacher className="text-4xl mx-auto text-green-600 mb-3" />
-            <h3 className="text-xl font-bold text-green-800">Total Classes</h3>
+            <h3 className="text-xl font-bold text-green-800">Accepted Classes</h3>
             <p className="text-2xl font-semibold mt-1 text-green-900">
               {summaryData.classes.toLocaleString()}+
             </p>

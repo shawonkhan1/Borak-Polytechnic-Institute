@@ -11,6 +11,7 @@ import {
   FaUserCircle,
   FaBookOpen,
   FaInfoCircle,
+  FaCheckCircle,
 } from "react-icons/fa";
 
 import { AuthContext } from "../AuthProvider/AuthProvider";
@@ -66,59 +67,65 @@ const DashBordLayouts = () => {
     );
 
   // Sidebar links conditionally set করা হলো
- const links = [
-  { name: "Home", path: "/", icon: <FaHome size={20} /> },
+  const links = [
+    { name: "Home", path: "/", icon: <FaHome size={20} /> },
 
-  ...(userRole === "admin"
-    ? [
-        {
-          name: "Teacher Requests",
-          path: "teacher-requests",
-          icon: <FaUserTie size={20} />,
-        },
-      ]
-    : []),
+    ...(userRole === "admin"
+      ? [
+          {
+            name: "Teacher Requests",
+            path: "teacher-requests",
+            icon: <FaUserTie size={20} />,
+          },
+          {
+            name: "Request Approve",
+            path: "request-approve",
+            icon: <FaCheckCircle size={20} />, // চেক মার্ক আইকন
+          },
+        ]
+      : []),
 
-  ...(userRole === "teacher"
-    ? [
-        {
-          name: "Add Class",
-          path: "add-class",
-          icon: <FaPlusCircle size={20} />,
-        },
-        {
-          name: "My Class",
-          path: "my-class",
-          icon: <FaChalkboardTeacher size={20} />,
-        },
-        {
-          name: "Profile",
-          path: "profile",
-          icon: <FaUserCircle size={20} />,
-        },
-      ]
-    : []),
+    ...(userRole === "teacher"
+      ? [
+          {
+            name: "Add Class",
+            path: "add-class",
+            icon: <FaPlusCircle size={20} />,
+          },
+          {
+            name: "My Class",
+            path: "my-class",
+            icon: <FaChalkboardTeacher size={20} />,
+          },
+          {
+            name: "Profile",
+            path: "profile",
+            icon: <FaUserCircle size={20} />,
+          },
+        ]
+      : []),
 
-  ...(userRole === "student"
-    ? [
-        {
-          name: "My Enroll Class",
-          path: "my-enroll-class",
-          icon: <FaBookOpen size={20} />,
-        },
-        {
-          name: "My Enroll Class Details",
-          path: "my-enroll-class-details",
-          icon: <FaInfoCircle size={20} />,
-        },
-        {
-          name: "Profile",
-          path: "profile",
-          icon: <FaUserCircle size={20} />,
-        },
-      ]
-    : []),
-];
+    ...(userRole === "student"
+      ? [
+          {
+            name: "My Enroll Class",
+            path: "my-enroll-class",
+            icon: <FaBookOpen size={20} />,
+          },
+          // {
+          //   name: "My Enroll Class Details",
+          //   path: "my-enroll-class-details",
+          //   icon: <FaInfoCircle size={20} />,
+          // },
+          {
+            name: "Profile",
+            path: "profile",
+            icon: <FaUserCircle size={20} />,
+          },
+        ]
+      : []),
+  ];
+
   return (
     <div className="flex min-h-screen bg-gray-100">
       {/* Mobile Top Bar */}
@@ -141,7 +148,7 @@ const DashBordLayouts = () => {
           ${isOpen ? "translate-x-0" : "-translate-x-full"}
           w-80 md:w-72
           pt-16 md:pt-6
-          md:static md:translate-x-0
+          md:translate-x-0
           z-40
         `}
       >
