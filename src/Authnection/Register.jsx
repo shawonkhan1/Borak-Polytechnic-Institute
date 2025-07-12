@@ -29,44 +29,47 @@ const Register = () => {
     }
   };
 
-  const onSubmit = async (data) => {
-    try {
-      const imageFile = data.image[0];
-      const formData = new FormData();
-      formData.append("image", imageFile);
+const onSubmit = async (data) => {
+  try {
+    const imageFile = data.image[0];
+    const formData = new FormData();
+    formData.append("image", imageFile);
 
-      const imgbbAPIKey = import.meta.env.VITE_IMGBB_API_KEY;
+    const imgbbAPIKey = import.meta.env.VITE_IMGBB_API_KEY;
 
-      const response = await axios.post(
-        `https://api.imgbb.com/1/upload?key=${imgbbAPIKey}`,
-        formData
-      );
+    const response = await axios.post(
+      `https://api.imgbb.com/1/upload?key=${imgbbAPIKey}`,
+      formData
+    );
 
-      if (response.data.success) {
-        const imageUrl = response.data.data.url;
+    if (response.data.success) {
+      const imageUrl = response.data.data.url;
 
-        // ✅ firebase registration
-        await createUser(data.email, data.password);
-        await updateUserProfiles(data.name, imageUrl);
+      // ফায়ারবেসে ইউজার তৈরি করো
+      await createUser(data.email, data.password);
+      await updateUserProfiles(data.name, imageUrl);
 
-        // ✅ Final data log
-        const finalUserData = {
-          name: data.name,
-          email: data.email,
-          photoURL: imageUrl,
-        };
-        console.log("User Created:", finalUserData);
-        
-        navigate(`${location.state ? location.state : "/"}`);
-        reset();
-        setPreview(null);
-      } else {
-        console.error("Image upload failed");
-      }
-    } catch (error) {
-      console.error("Error during registration:", error);
+      // ব্যাকএন্ডে ইউজার ডেটা POST করো
+      const finalUserData = {
+        name: data.name,
+        email: data.email,
+        photoURL: imageUrl,
+      };
+      await axios.post("http://localhost:5000/users", finalUserData);
+
+      console.log("User Created and saved to DB:", finalUserData);
+
+      navigate(`${location.state ? location.state : "/"}`);
+      reset();
+      setPreview(null);
+    } else {
+      console.error("Image upload failed");
     }
-  };
+  } catch (error) {
+    console.error("Error during registration:", error);
+  }
+};
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-base-200 px-4">

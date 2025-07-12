@@ -148,7 +148,7 @@ const Navbar = () => {
         <div className="md:hidden absolute top-full left-0 w-full bg-base-100 shadow-md border-t border-gray-200 z-40">
           <div className="flex flex-col space-y-1 p-4">
             {menuLinks}
-            {/* যদি login না করা থাকে তাহলে এখানে সাইন ইন বাটন আরেকবার রাখতে পারো */}
+         
             {!user && (
               <Link
                 to="/register"

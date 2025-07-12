@@ -35,7 +35,7 @@ const events = [
 
 const Events = () => {
   return (
-    <section className="py-16 bg-white">
+    <section className="py-16 bg-white rounded-2xl">
       <div className="max-w-full mx-auto px-6">
         <h2 className="text-4xl font-extrabold text-center text-primary mb-12">
           Upcoming Events

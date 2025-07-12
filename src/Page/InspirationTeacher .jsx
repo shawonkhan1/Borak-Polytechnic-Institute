@@ -26,10 +26,10 @@ const InspirationTeacher = () => {
         transition={{ duration: 0.7, delay: 0.2 }}
         className="text-center md:text-left space-y-5"
       >
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
+        <h2 className="text-4xl font-bold  mb-8">
           Meet Our Inspirational Teachers
         </h2>
-        <p className="text-gray-600 text-lg leading-relaxed">
+        <p className=" text-lg leading-relaxed">
           Our experienced and passionate instructors are the backbone of Borak
           Polytechnic Institute. Learn from the best and be inspired every step
           of your academic journey.

@@ -3,11 +3,11 @@ import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 import GoogleLoginButton from "./GoogleLoginButton ";
-
+import axios from "axios";
 
 const Login = () => {
   const { Login } = useContext(AuthContext);
-      const navigate = useNavigate();
+  const navigate = useNavigate();
   const location = useLocation();
 
   const {
@@ -18,9 +18,20 @@ const Login = () => {
 
   const onSubmit = async (data) => {
     try {
-      await Login(data.email, data.password);
+      
+      const userCredential = await Login(data.email, data.password);
+      const user = userCredential.user;
+
       console.log("Login Success!");
-        navigate(`${location.state ? location.state : "/"}`);
+
+      
+      await axios.post("http://localhost:5000/login", {
+        email: user.email,
+        name: user.displayName || "userName", 
+        photoURL: user.photoURL || "",
+      });
+
+      navigate(`${location.state ? location.state : "/"}`);
     } catch (error) {
       console.error("Login Failed:", error.message);
     }
@@ -48,7 +59,9 @@ const Login = () => {
               })}
             />
             {errors.email && (
-              <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.email.message}
+              </p>
             )}
           </div>
 
@@ -70,14 +83,18 @@ const Login = () => {
               })}
             />
             {errors.password && (
-              <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.password.message}
+              </p>
             )}
           </div>
 
           {/* Submit */}
           <button
             type="submit"
-            className={`btn btn-primary w-full ${isSubmitting ? "loading" : ""}`}
+            className={`btn btn-primary w-full ${
+              isSubmitting ? "loading" : ""
+            }`}
             disabled={isSubmitting}
           >
             Login
