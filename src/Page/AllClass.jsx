@@ -30,7 +30,7 @@ const AllClass = () => {
       setEnrollmentsCount(counts);
     } catch (error) {
       console.error("Failed to fetch classes", error);
-      Swal.fire("Error", "Failed to load classes", "error");
+    
     } finally {
       setLoading(false);
     }

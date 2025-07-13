@@ -1,9 +1,27 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../AuthProvider/AuthProvider";
-import { Link } from "react-router";
+import { Link } from "react-router"; // ✅ use react-router-dom
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const UserProfile = () => {
   const { user } = useContext(AuthContext);
+  const axiosSecure = useAxiosSecure();
+  const [role, setRole] = useState("");
+
+  useEffect(() => {
+    const fetchUserRole = async () => {
+      if (user?.email) {
+        try {
+          const res = await axiosSecure.get(`/users?email=${user.email}`);
+          const userData = res.data[0];
+          setRole(userData?.role || "student");
+        } catch (err) {
+          console.error("Error fetching user role", err);
+        }
+      }
+    };
+    fetchUserRole();
+  }, [user, axiosSecure]);
 
   return (
     <div className="min-h-[80vh] flex justify-center items-center bg-base-200 px-4">
@@ -21,8 +39,13 @@ const UserProfile = () => {
         <h2 className="text-2xl font-bold text-primary mb-1">
           {user?.displayName || "No Name"}
         </h2>
-        <p className="text-sm text-gray-500 mb-4">
+        <p className="text-sm text-gray-500 mb-1">
           {user?.email || "No Email Available"}
+        </p>
+
+        {/* ✅ Show Role */}
+        <p className="text-sm text-gray-500 mb-4 capitalize">
+          Role: <span className="font-medium text-primary">{role}</span>
         </p>
 
         {/* Divider */}

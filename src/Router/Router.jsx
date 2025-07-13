@@ -42,7 +42,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/payments/:id",
-        Component: Payment,
+        element: <PrivateRoute><Payment></Payment></PrivateRoute>
       },
       {
         path: "/register",

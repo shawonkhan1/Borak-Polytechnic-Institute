@@ -3,13 +3,15 @@ import React, { useEffect, useState, useContext } from "react";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { AuthContext } from "../AuthProvider/AuthProvider";
- // 🔁 ইউজার তথ্য
+import { useNavigate } from "react-router";
+// 🔁 ইউজার তথ্য
 
 const PaymentForm = ({ id }) => {
   const stripe = useStripe();
   const elements = useElements();
   const axiosSecure = useAxiosSecure();
   const { user } = useContext(AuthContext); // 🔁 ইউজার কনটেক্সট থেকে ইমেইল
+  const navigate = useNavigate();
 
   const [classData, setClassData] = useState(null);
   const [error, setError] = useState("");
@@ -47,10 +49,11 @@ const PaymentForm = ({ id }) => {
     const card = elements.getElement(CardElement);
     if (!card) return;
 
-    const { error: methodError, paymentMethod } = await stripe.createPaymentMethod({
-      type: "card",
-      card,
-    });
+    const { error: methodError, paymentMethod } =
+      await stripe.createPaymentMethod({
+        type: "card",
+        card,
+      });
 
     if (methodError) {
       setError(methodError.message);
@@ -60,9 +63,10 @@ const PaymentForm = ({ id }) => {
 
     setError("");
 
-    const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: paymentMethod.id,
-    });
+    const { paymentIntent, error: confirmError } =
+      await stripe.confirmCardPayment(clientSecret, {
+        payment_method: paymentMethod.id,
+      });
 
     if (confirmError) {
       setError(confirmError.message);
@@ -81,6 +85,8 @@ const PaymentForm = ({ id }) => {
             text: "You are now enrolled in this class.",
             icon: "success",
             confirmButtonText: "OK",
+          }).then(() => {
+            navigate("/dashboard/my-enroll-class"); // ✅ navigate after confirmation
           });
         } else if (response.data?.message === "Already enrolled") {
           Swal.fire({
@@ -109,14 +115,21 @@ const PaymentForm = ({ id }) => {
     setProcessing(false);
   };
 
-  if (loading) return <p className="text-center mt-10">Loading class data...</p>;
+  if (loading)
+    return <p className="text-center mt-10">Loading class data...</p>;
   if (!classData) return <p className="text-center mt-10">No class found.</p>;
 
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded shadow">
-      <h2 className="text-2xl text-black font-semibold mb-4 text-center">{classData.title}</h2>
-      <p className="text-center text-gray-600 mb-2">Instructor: {classData.name}</p>
-      <p className="text-center text-black font-bold mb-4">Amount: ৳{classData.price}</p>
+      <h2 className="text-2xl text-black font-semibold mb-4 text-center">
+        {classData.title}
+      </h2>
+      <p className="text-center text-gray-600 mb-2">
+        Instructor: {classData.name}
+      </p>
+      <p className="text-center text-black font-bold mb-4">
+        Amount: ৳{classData.price}
+      </p>
 
       <form onSubmit={handleSubmit}>
         <CardElement className="p-3 border rounded mb-4" />

@@ -1,12 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import Rating from "react-rating";
 import Modal from "react-modal";
+import { toast } from "react-toastify";
+import { AuthContext } from "../AuthProvider/AuthProvider";
 
 Modal.setAppElement("#root");
 
 const MyEnrollClassDetails = () => {
+  const { user } = useContext(AuthContext);
+  const email = user?.email;
+  const name = user?.displayName;
+  const photo = user?.photoURL;
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
 
@@ -42,19 +48,19 @@ const MyEnrollClassDetails = () => {
   const handleSubmitAssignment = async (assignmentId) => {
     const submissionText = submissionTexts[assignmentId];
     if (!submissionText || submissionText.trim() === "") {
-      alert("Please enter submission text.");
+      toast.error("Please enter submission text.");
       return;
     }
     try {
       await axiosSecure.post(`/assignments/${assignmentId}/submit`, {
         submissionText,
       });
-      alert("Assignment submitted successfully!");
+      toast.success("Assignment submitted successfully!");
       setSubmissionTexts((prev) => ({ ...prev, [assignmentId]: "" }));
       const res = await axiosSecure.get(`/assignments?classId=${id}`);
       setAssignments(res.data);
     } catch (err) {
-      alert("Failed to submit assignment.");
+      toast.error("Failed to submit assignment.");
     }
   };
 
@@ -65,27 +71,31 @@ const MyEnrollClassDetails = () => {
     setRating(0);
   };
 
+  // modal function
   const handleSendFeedback = async () => {
     if (!description.trim()) {
-      alert("Please enter feedback description.");
+      toast.error("Please enter feedback description.");
       return;
     }
     if (rating === 0) {
-      alert("Please provide a rating.");
+      toast.error("Please provide a rating.");
       return;
     }
     try {
       setSubmitFeedbackLoading(true);
       await axiosSecure.post("/teaching-evaluations", {
+        name,
+        email,
+        photo,
         classId: id,
         description,
         rating,
       });
-      alert("Feedback sent successfully!");
+      toast.success("Feedback sent successfully!");
       setSubmitFeedbackLoading(false);
       closeModal();
     } catch (err) {
-      alert("Failed to send feedback.");
+      toast.error("Failed to send feedback.");
       setSubmitFeedbackLoading(false);
     }
   };
@@ -159,7 +169,9 @@ const MyEnrollClassDetails = () => {
           },
         }}
       >
-        <h2 className="text-xl font-semibold mb-4">Teaching Evaluation Report</h2>
+        <h2 className="text-xl font-semibold mb-4">
+          Teaching Evaluation Report
+        </h2>
         <div className="mb-4">
           <label className="block font-medium mb-1">Description:</label>
           <textarea
@@ -189,7 +201,9 @@ const MyEnrollClassDetails = () => {
             onClick={handleSendFeedback}
             disabled={submitFeedbackLoading}
             className={`px-4 py-2 rounded-md text-white ${
-              submitFeedbackLoading ? "bg-blue-300 cursor-not-allowed" : "bg-blue-600"
+              submitFeedbackLoading
+                ? "bg-blue-300 cursor-not-allowed"
+                : "bg-blue-600"
             }`}
           >
             {submitFeedbackLoading ? "Sending..." : "Send"}

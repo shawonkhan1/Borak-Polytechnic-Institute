@@ -66,7 +66,7 @@ const DashBordLayouts = () => {
       </div>
     );
 
-  // Sidebar links conditionally set করা হলো
+ 
   const links = [
     { name: "Home", path: "/", icon: <FaHome size={20} /> },
 
@@ -78,7 +78,7 @@ const DashBordLayouts = () => {
             icon: <FaUserTie size={20} />,
           },
           {
-            name: "Request Approve",
+            name: "Class Requests",
             path: "request-approve",
             icon: <FaCheckCircle size={20} />, // চেক মার্ক আইকন
           },
@@ -138,7 +138,7 @@ const DashBordLayouts = () => {
           >
             {isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
           </button>
-          <h1 className="text-xl font-semibold text-gray-900">Admin Panel</h1>
+          <h1 className="text-xl font-semibold text-gray-900">BPI</h1>
         </div>
       </div>
 

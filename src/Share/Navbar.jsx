@@ -106,7 +106,7 @@ const Navbar = () => {
                 </li>
                 <li>
                   <Link
-                    to="/dashboard"
+                    to="/dashboard/profile"
                     className="block px-4 py-2 hover:bg-gray-100 hover:text-black"
                     onClick={() => setDropdownOpen(false)}
                   >

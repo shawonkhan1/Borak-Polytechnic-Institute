@@ -4,7 +4,7 @@ import { NavLink } from "react-router";
 const links = [
   { to: "/", label: "Home" },
   { to: "/allclass", label: "All Classes" },
-  { to: "/apply_Teacher", label: "Apply Teacher" },
+  { to: "/apply_Teacher", label: "Teach-on-BPI" },
 ];
 
 const NavLinks = ({ onLinkClick }) => {

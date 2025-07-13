@@ -6,6 +6,7 @@ import InspirationTeacher from "../Page/InspirationTeacher ";
 import Events from "../Page/Events";
 import Faq from "../Page/Faq";
 import SummarySection from "../Page/SummarySection ";
+import TopEnrolledClasses from "../Page/TopEnrolledClasses ";
 
 const HomePage = () => {
   const { user } = useContext(AuthContext);
@@ -14,6 +15,7 @@ const HomePage = () => {
     <div>
       <Banner></Banner>
       <OurPatner></OurPatner>
+      <TopEnrolledClasses></TopEnrolledClasses>
       {/* <section>
         Popular Class
       </section> */}

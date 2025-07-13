@@ -42,9 +42,13 @@ const TeacherRequestsTable = () => {
         await axiosSecure.patch(`/users/role/${request.email}`, {
           role: "teacher",
         });
-        await axiosSecure.delete(`/teacher-requests/${request._id}`);
-        fetchRequests();
 
+        // Optional: update request status to "approved"
+        await axiosSecure.patch(`/teacher-requests/status/${request.email}`, {
+          status: "approved",
+        });
+
+        fetchRequests();
         Swal.fire("Approved!", "User promoted to Teacher.", "success");
       } catch (err) {
         console.error(err);
@@ -53,10 +57,10 @@ const TeacherRequestsTable = () => {
     }
   };
 
-  const handleReject = async (requestId) => {
+  const handleReject = async (request) => {
     const result = await Swal.fire({
       title: "Are you sure?",
-      text: "This request will be permanently rejected.",
+      text: "This request will be marked as rejected.",
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Reject",
@@ -67,9 +71,9 @@ const TeacherRequestsTable = () => {
 
     if (result.isConfirmed) {
       try {
-        await axiosSecure.delete(`/teacher-requests/${requestId}`);
+        await axiosSecure.patch(`/teacher-requests/reject/${request.email}`);
         fetchRequests();
-        Swal.fire("Rejected!", "Request has been removed.", "info");
+        Swal.fire("Rejected!", "Request has been marked as rejected.", "info");
       } catch (err) {
         console.error(err);
         Swal.fire("Error", "Failed to reject request", "error");
@@ -112,15 +116,19 @@ const TeacherRequestsTable = () => {
                     >
                       Details
                     </button>
+
                     <button
                       onClick={() => handleApprove(req)}
-                      className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 w-full sm:w-auto"
+                      disabled={req.status === "rejected"}
+                      className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       Approve
                     </button>
+
                     <button
-                      onClick={() => handleReject(req._id)}
-                      className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 w-full sm:w-auto"
+                      onClick={() => handleReject(req)}
+                      disabled={req.status === "rejected"}
+                      className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       Reject
                     </button>

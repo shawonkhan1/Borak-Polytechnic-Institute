@@ -9,7 +9,7 @@ const Login = () => {
   const { Login } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
-
+console.log(location.state);
   const {
     register,
     handleSubmit,
@@ -24,14 +24,15 @@ const Login = () => {
 
       console.log("Login Success!");
 
+
       
-      await axios.post("http://localhost:5000/login", {
+      await axios.post("http://localhost:5000/users", {
         email: user.email,
         name: user.displayName || "userName", 
         photoURL: user.photoURL || "",
       });
 
-      navigate(`${location.state ? location.state : "/"}`);
+      navigate(`${location?.state ? location?.state : "/"}`);
     } catch (error) {
       console.error("Login Failed:", error.message);
     }
