@@ -4,16 +4,24 @@ import Swal from "sweetalert2";
 
 const TeacherRequestsTable = () => {
   const axiosSecure = useAxiosSecure();
+
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [selectedRequest, setSelectedRequest] = useState(null);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [searchCategory, setSearchCategory] = useState("");
+
   const fetchRequests = async () => {
     setLoading(true);
     try {
-      const res = await axiosSecure.get("/teacher-requests");
-      setRequests(res.data);
+      const res = await axiosSecure.get(
+        `/teacher-requests?page=${currentPage}&limit=5&category=${searchCategory}`
+      );
+      setRequests(res.data.requests);
+      setTotalPages(res.data.totalPages);
       setError("");
     } catch (err) {
       console.error(err);
@@ -25,9 +33,9 @@ const TeacherRequestsTable = () => {
 
   useEffect(() => {
     fetchRequests();
-  }, []);
+  }, [currentPage, searchCategory]);
 
-  const handleApprove = async (request) => {
+  const handleApprove = async (req) => {
     const result = await Swal.fire({
       title: "Are you sure?",
       text: "You are about to approve this request.",
@@ -35,24 +43,18 @@ const TeacherRequestsTable = () => {
       showCancelButton: true,
       confirmButtonText: "Approve",
       cancelButtonText: "Cancel",
-      confirmButtonColor: "#22c55e",
-      cancelButtonColor: "#d33",
     });
 
     if (result.isConfirmed) {
       try {
-        // Update user role to teacher
-        await axiosSecure.patch(`/users/role/${request.email}`, {
+        await axiosSecure.patch(`/users/role/${req.email}`, {
           role: "teacher",
         });
-
-        // Update request status to approved
-        await axiosSecure.patch(`/teacher-requests/status/${request.email}`, {
+        await axiosSecure.patch(`/teacher-requests/status/${req.email}`, {
           status: "approved",
         });
-
-        await fetchRequests(); // Refresh requests list
-        setSelectedRequest(null); // close modal if open
+        fetchRequests();
+        setSelectedRequest(null);
         Swal.fire("Approved!", "User promoted to Teacher.", "success");
       } catch (err) {
         console.error(err);
@@ -61,25 +63,21 @@ const TeacherRequestsTable = () => {
     }
   };
 
-  const handleReject = async (request) => {
+  const handleReject = async (req) => {
     const result = await Swal.fire({
       title: "Are you sure?",
-      text: "This request will be marked as rejected and user role will be reset to student.",
+      text: "This request will be marked as rejected.",
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Reject",
-      cancelButtonText: "Cancel",
-      confirmButtonColor: "#ef4444",
-      cancelButtonColor: "#6b7280",
     });
 
     if (result.isConfirmed) {
       try {
-        // Reject: user role set to "student", request status set to "rejected"
-        await axiosSecure.patch(`/teacher-requests/reject/${request.email}`);
-        await fetchRequests(); // Refresh requests list
-        setSelectedRequest(null); // close modal if open
-        Swal.fire("Rejected!", "Request has been marked as rejected.", "info");
+        await axiosSecure.patch(`/teacher-requests/reject/${req.email}`);
+        fetchRequests();
+        setSelectedRequest(null);
+        Swal.fire("Rejected!", "Request marked as rejected.", "info");
       } catch (err) {
         console.error(err);
         Swal.fire("Error", "Failed to reject request", "error");
@@ -87,101 +85,128 @@ const TeacherRequestsTable = () => {
     }
   };
 
-  if (loading) return <p className="text-center mt-10">Loading requests...</p>;
-  if (error) return <p className="text-red-500 text-center">{error}</p>;
+  const handleSearch = (e) => {
+    setSearchCategory(e.target.value);
+    setCurrentPage(1);
+  };
 
   return (
     <div className="max-w-7xl mx-auto p-4">
       <h2 className="text-2xl font-bold mb-4 text-center">Teacher Requests</h2>
 
-      <div className="overflow-x-auto md:overflow-visible">
-        <table className="w-full border border-gray-300 text-sm md:text-base">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="border px-4 py-2">Name</th>
-              <th className="border px-4 py-2">Email</th>
-              <th className="border px-4 py-2">Title</th>
-              <th className="border px-4 py-2">Category</th>
-              <th className="border px-4 py-2">Experience</th>
-              <th className="border px-4 py-2">Status</th>
-              <th className="border px-4 py-2">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {requests.map((req) => (
-              <tr key={req._id} className="text-center border-t">
-                <td className="border px-4 py-2">{req.name}</td>
-                <td className="border px-4 py-2">{req.email}</td>
-                <td className="border px-4 py-2">{req.title}</td>
-                <td className="border px-4 py-2">{req.category}</td>
-                <td className="border px-4 py-2">{req.experience}</td>
-                <td className="border px-4 py-2 capitalize">{req.status}</td>
-                <td className="border px-4 py-2">
-                  <div className="flex flex-col sm:flex-row justify-center items-center gap-2">
-                    <button
-                      onClick={() => setSelectedRequest(req)}
-                      className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 w-full sm:w-auto"
-                    >
-                      Details
-                    </button>
-
-                    <button
-                      onClick={() => handleApprove(req)}
-                      disabled={req.status === "rejected" || req.status === "approved"}
-                      className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      Approve
-                    </button>
-
-                    <button
-                      onClick={() => handleReject(req)}
-                      disabled={req.status === "rejected" || req.status === "approved"}
-                      className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      Reject
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-            {requests.length === 0 && (
-              <tr>
-                <td colSpan="7" className="text-center py-6 text-gray-500">
-                  No pending requests found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+      {/* 🔍 Search Category */}
+      <div className="flex justify-end mb-4">
+        <input
+          type="text"
+          placeholder="Search by category..."
+          value={searchCategory}
+          onChange={handleSearch}
+          className="border p-2 rounded w-60"
+        />
       </div>
+
+      {loading ? (
+        <p className="text-center mt-10">Loading requests...</p>
+      ) : error ? (
+        <p className="text-red-500 text-center">{error}</p>
+      ) : (
+        <>
+          <div className="overflow-x-auto">
+            <table className="w-full border text-sm md:text-base">
+              <thead>
+                <tr className="bg-gray-100">
+                  <th className="border px-4 py-2">Name</th>
+                  <th className="border px-4 py-2">Email</th>
+                  <th className="border px-4 py-2">Title</th>
+                  <th className="border px-4 py-2">Category</th>
+                  <th className="border px-4 py-2">Experience</th>
+                  <th className="border px-4 py-2">Status</th>
+                  <th className="border px-4 py-2">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {requests.map((req) => (
+                  <tr key={req._id} className="text-center border-t">
+                    <td className="border px-4 py-2">{req.name}</td>
+                    <td className="border px-4 py-2">{req.email}</td>
+                    <td className="border px-4 py-2">{req.title}</td>
+                    <td className="border px-4 py-2">{req.category}</td>
+                    <td className="border px-4 py-2">{req.experience}</td>
+                    <td className="border px-4 py-2 capitalize">{req.status}</td>
+                    <td className="border px-4 py-2">
+                      <div className="flex gap-2 flex-wrap justify-center">
+                        <button
+                          onClick={() => setSelectedRequest(req)}
+                          className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+                        >
+                          Details
+                        </button>
+                        <button
+                          onClick={() => handleApprove(req)}
+                          disabled={req.status === "approved" || req.status === "rejected"}
+                          className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 disabled:opacity-50"
+                        >
+                          Approve
+                        </button>
+                        <button
+                          onClick={() => handleReject(req)}
+                          disabled={req.status === "approved" || req.status === "rejected"}
+                          className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 disabled:opacity-50"
+                        >
+                          Reject
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* 🔢 Pagination */}
+          <div className="flex justify-center items-center gap-4 mt-6">
+            <button
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+            >
+              Previous
+            </button>
+            <span>
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+              }
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div>
+        </>
+      )}
 
       {/* Details Modal */}
       {selectedRequest && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
-          <div className="bg-white rounded-lg shadow-lg p-6 w-[90%] max-w-md relative text-black">
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] max-w-md relative">
             <button
               onClick={() => setSelectedRequest(null)}
-              className="absolute top-2 right-2 text-gray-700 hover:text-black text-xl"
+              className="absolute top-2 right-2 text-gray-600 hover:text-black text-xl"
             >
               ✕
             </button>
-            <div className="text-center">
-              {selectedRequest.image && (
-                <img
-                  src={selectedRequest.image}
-                  alt="User"
-                  className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
-                />
-              )}
-              <h3 className="text-xl font-bold mb-2">Request Details</h3>
-              <p><strong>Name:</strong> {selectedRequest.name}</p>
-              <p><strong>Email:</strong> {selectedRequest.email}</p>
-              <p><strong>Title:</strong> {selectedRequest.title}</p>
-              <p><strong>Category:</strong> {selectedRequest.category}</p>
-              <p><strong>Experience:</strong> {selectedRequest.experience}</p>
-              <p><strong>Status:</strong> {selectedRequest.status}</p>
-              <p><strong>Submitted:</strong> {new Date(selectedRequest.createdAt).toLocaleString()}</p>
-            </div>
+            <h3 className="text-xl font-bold mb-4 text-center">
+              Request Details
+            </h3>
+            <p><strong>Name:</strong> {selectedRequest.name}</p>
+            <p><strong>Email:</strong> {selectedRequest.email}</p>
+            <p><strong>Title:</strong> {selectedRequest.title}</p>
+            <p><strong>Category:</strong> {selectedRequest.category}</p>
+            <p><strong>Experience:</strong> {selectedRequest.experience}</p>
+            <p><strong>Status:</strong> {selectedRequest.status}</p>
           </div>
         </div>
       )}
