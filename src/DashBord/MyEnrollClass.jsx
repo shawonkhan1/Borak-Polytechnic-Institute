@@ -9,6 +9,10 @@ const MyEnrollClass = () => {
   const [classes, setClasses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
 
@@ -38,7 +42,6 @@ const MyEnrollClass = () => {
 
         const classesData = await Promise.all(classPromises);
         setClasses(classesData);
-
         setLoading(false);
       } catch (err) {
         console.error("Failed to fetch enrollments or classes:", err);
@@ -50,79 +53,100 @@ const MyEnrollClass = () => {
     fetchEnrollments();
   }, [userEmail, axiosSecure]);
 
-  if (!userEmail) {
-    return <p>Please login to see your enrolled classes.</p>;
-  }
+  if (!userEmail)
+    return (
+      <p className="text-center mt-10 text-red-500">
+        Please login to see your enrolled classes.
+      </p>
+    );
 
-  if (loading) {
-    return <p>Loading your enrolled classes...</p>;
-  }
+  if (loading)
+    return (
+      <p className="text-center mt-10 text-gray-700">Loading your enrolled classes...</p>
+    );
 
-  if (error) {
-    return <p style={{ color: "red" }}>{error}</p>;
-  }
+  if (error)
+    return (
+      <p className="text-center mt-10 text-red-600 font-semibold">{error}</p>
+    );
 
-  if (classes.length === 0) {
-    return <p>You have not enrolled in any classes yet.</p>;
-  }
+  if (classes.length === 0)
+    return (
+      <p className="text-center mt-10 text-gray-600">You have not enrolled in any classes yet.</p>
+    );
+
+  // Pagination Logic
+  const totalPages = Math.ceil(classes.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentClasses = classes.slice(startIndex, startIndex + itemsPerPage);
 
   const handleContinue = (classId) => {
     navigate(`/dashboard/myenroll-class/${classId}`);
   };
 
+  const handlePrev = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
+  const handleNext = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
+
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        flexWrap: "wrap",
-        gap: "20px",
-        padding: "20px",
-      }}
-    >
-      {classes.map((cls) => (
-        <div
-          key={cls._id}
-          style={{
-            border: "1px solid #ddd",
-            borderRadius: "10px",
-            padding: "15px",
-            width: "320px",
-            boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-            textAlign: "center",
-            backgroundColor: "#fff",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <h2>{cls.title}</h2>
-          <p>
-            <strong>Name:</strong> {cls.name}
-          </p>
-          {cls.image && (
-            <img
-              src={cls.image}
-              alt={cls.title}
-              style={{ width: "100%", borderRadius: "8px", marginBottom: "15px" }}
-            />
-          )}
-          <button
-            onClick={() => handleContinue(cls._id)}
-            style={{
-              padding: "10px 20px",
-              backgroundColor: "#007bff",
-              color: "#fff",
-              border: "none",
-              borderRadius: "5px",
-              cursor: "pointer",
-              fontWeight: "bold",
-            }}
+    <div className="p-6 max-w-7xl mx-auto">
+      <h2 className="text-3xl font-bold text-center mb-8">My Enrolled Classes</h2>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {currentClasses.map((cls) => (
+          <div
+            key={cls._id}
+            className="card bg-base-100 shadow-lg rounded-lg flex flex-col"
           >
-            Continue
-          </button>
-        </div>
-      ))}
+            {cls.image && (
+              <figure>
+                <img
+                  src={cls.image}
+                  alt={cls.title}
+                  className="w-full h-48 object-cover rounded-t-lg"
+                />
+              </figure>
+            )}
+            <div className="card-body flex flex-col justify-between">
+              <h2 className="card-title">{cls.title}</h2>
+              <p className="text-gray-600 mb-4">
+                <strong>Teacher:</strong> {cls.name}
+              </p>
+              <button
+                onClick={() => handleContinue(cls._id)}
+                className="btn btn-primary mt-auto"
+              >
+                Continue
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Pagination Buttons (Always show) */}
+      <div className="flex justify-center items-center gap-4 mt-10">
+        <button
+          onClick={handlePrev}
+          disabled={currentPage === 1}
+          className="btn btn-outline"
+        >
+          Previous
+        </button>
+        <span className="font-semibold text-lg">
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={handleNext}
+          disabled={currentPage === totalPages}
+          className="btn btn-outline"
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };

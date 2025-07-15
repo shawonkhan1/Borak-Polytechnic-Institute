@@ -12,6 +12,8 @@ const AllClass = () => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [searchQuery, setSearchQuery] = useState(""); // 🔍 search state
+
   const limit = 6;
 
   const fetchClasses = async (page = 1) => {
@@ -27,9 +29,7 @@ const AllClass = () => {
       const counts = {};
       await Promise.all(
         fetchedClasses.map(async (cls) => {
-          const countRes = await axiosSecure.get(
-            `/enrollments/count?classId=${cls._id}`
-          );
+          const countRes = await axiosSecure.get(`/enrollments/count?classId=${cls._id}`);
           counts[cls._id] = countRes.data.count || 0;
         })
       );
@@ -54,18 +54,34 @@ const AllClass = () => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
 
+  // 🔍 Filter classes by searchQuery (title match)
+  const filteredClasses = classes.filter((cls) =>
+    cls.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   if (loading) return <p className="text-center mt-10">Loading classes...</p>;
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6 text-center">Available Classes</h1>
 
-      {classes.length === 0 ? (
+      {/* 🔍 Search Box */}
+      <div className="mb-6 flex justify-center">
+        <input
+          type="text"
+          placeholder="Search by title..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="input input-bordered w-full max-w-md"
+        />
+      </div>
+
+      {filteredClasses.length === 0 ? (
         <p className="text-center">No classes found.</p>
       ) : (
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {classes.map((cls) => (
+            {filteredClasses.map((cls) => (
               <div
                 key={cls._id}
                 className="border rounded-lg shadow hover:shadow-lg transition p-4 flex flex-col"

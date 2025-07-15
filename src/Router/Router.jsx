@@ -43,7 +43,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/payments/:id",
-        element: <PrivateRoute><Payment></Payment></PrivateRoute>
+        element: (
+          <PrivateRoute>
+            <Payment></Payment>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/register",
@@ -130,9 +134,10 @@ export const router = createBrowserRouter([
         Component: MyClassDetils,
       },
       {
-        path:'usertoadmin',
-        Component: MakeUsertoAdmin
-      }
+        path: "usertoadmin",
+        Component: MakeUsertoAdmin,
+      },
+      
     ],
   },
 ]);

@@ -20,6 +20,7 @@ const TeacherRequestsTable = () => {
       const res = await axiosSecure.get(
         `/teacher-requests?page=${currentPage}&limit=5&category=${searchCategory}`
       );
+      console.log("Fetched requests:", res.data.requests);
       setRequests(res.data.requests);
       setTotalPages(res.data.totalPages);
       setError("");
@@ -47,13 +48,17 @@ const TeacherRequestsTable = () => {
 
     if (result.isConfirmed) {
       try {
-        await axiosSecure.patch(`/users/role/${req.email}`, {
-          role: "teacher",
-        });
+        // ১. status update with body
         await axiosSecure.patch(`/teacher-requests/status/${req.email}`, {
           status: "approved",
         });
-        fetchRequests();
+
+        // ২. role update with body
+        await axiosSecure.patch(`/users/role/${req.email}`, {
+          role: "teacher",
+        });
+
+        await fetchRequests();
         setSelectedRequest(null);
         Swal.fire("Approved!", "User promoted to Teacher.", "success");
       } catch (err) {
@@ -70,12 +75,22 @@ const TeacherRequestsTable = () => {
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Reject",
+      cancelButtonText: "Cancel",
     });
 
     if (result.isConfirmed) {
       try {
-        await axiosSecure.patch(`/teacher-requests/reject/${req.email}`);
-        fetchRequests();
+        // status update to rejected
+        await axiosSecure.patch(`/teacher-requests/status/${req.email}`, {
+          status: "rejected",
+        });
+
+        // user role reset to student
+        await axiosSecure.patch(`/users/role/${req.email}`, {
+          role: "student",
+        });
+
+        await fetchRequests();
         setSelectedRequest(null);
         Swal.fire("Rejected!", "Request marked as rejected.", "info");
       } catch (err) {
@@ -94,7 +109,7 @@ const TeacherRequestsTable = () => {
     <div className="max-w-7xl mx-auto p-4">
       <h2 className="text-2xl font-bold mb-4 text-center">Teacher Requests</h2>
 
-      {/* 🔍 Search Category */}
+      {/* Search Category */}
       <div className="flex justify-end mb-4">
         <input
           type="text"
@@ -143,14 +158,18 @@ const TeacherRequestsTable = () => {
                         </button>
                         <button
                           onClick={() => handleApprove(req)}
-                          disabled={req.status === "approved" || req.status === "rejected"}
+                          disabled={
+                            req.status === "approved" || req.status === "rejected"
+                          }
                           className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 disabled:opacity-50"
                         >
                           Approve
                         </button>
                         <button
                           onClick={() => handleReject(req)}
-                          disabled={req.status === "approved" || req.status === "rejected"}
+                          disabled={
+                            req.status === "approved" || req.status === "rejected"
+                          }
                           className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 disabled:opacity-50"
                         >
                           Reject
@@ -163,7 +182,7 @@ const TeacherRequestsTable = () => {
             </table>
           </div>
 
-          {/* 🔢 Pagination */}
+          {/* Pagination */}
           <div className="flex justify-center items-center gap-4 mt-6">
             <button
               onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
@@ -201,12 +220,24 @@ const TeacherRequestsTable = () => {
             <h3 className="text-xl font-bold mb-4 text-center">
               Request Details
             </h3>
-            <p><strong>Name:</strong> {selectedRequest.name}</p>
-            <p><strong>Email:</strong> {selectedRequest.email}</p>
-            <p><strong>Title:</strong> {selectedRequest.title}</p>
-            <p><strong>Category:</strong> {selectedRequest.category}</p>
-            <p><strong>Experience:</strong> {selectedRequest.experience}</p>
-            <p><strong>Status:</strong> {selectedRequest.status}</p>
+            <p>
+              <strong>Name:</strong> {selectedRequest.name}
+            </p>
+            <p>
+              <strong>Email:</strong> {selectedRequest.email}
+            </p>
+            <p>
+              <strong>Title:</strong> {selectedRequest.title}
+            </p>
+            <p>
+              <strong>Category:</strong> {selectedRequest.category}
+            </p>
+            <p>
+              <strong>Experience:</strong> {selectedRequest.experience}
+            </p>
+            <p>
+              <strong>Status:</strong> {selectedRequest.status}
+            </p>
           </div>
         </div>
       )}

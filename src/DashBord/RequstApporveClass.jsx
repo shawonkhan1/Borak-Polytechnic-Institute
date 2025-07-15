@@ -186,7 +186,7 @@ const RequstApproveClass = () => {
 
       {/* Details Modal */}
       {modalOpen && selectedClass && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+        <div className="fixed inset-0  bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-lg p-6 max-w-lg w-full relative shadow-lg">
             <button
               onClick={closeDetailsModal}
