@@ -7,17 +7,22 @@ const RequstApproveClass = () => {
 
   const [pendingClasses, setPendingClasses] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedClass, setSelectedClass] = useState(null); 
+  const [selectedClass, setSelectedClass] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
-  
-  const fetchPendingClasses = async () => {
+  const limit = 6; 
+
+  const fetchPendingClasses = async (page = 1) => {
     setLoading(true);
     try {
-      const res = await axiosSecure.get("/classes?status=pending");
+      const res = await axiosSecure.get(`/classes?status=pending&page=${page}&limit=${limit}`);
 
       if (Array.isArray(res.data.classes)) {
         setPendingClasses(res.data.classes);
+        setTotalPages(res.data.totalPages || 1);
+        setCurrentPage(res.data.currentPage || 1);
       } else {
         setPendingClasses([]);
       }
@@ -31,10 +36,9 @@ const RequstApproveClass = () => {
   };
 
   useEffect(() => {
-    fetchPendingClasses();
-  }, []);
+    fetchPendingClasses(currentPage);
+  }, [currentPage]);
 
-  
   const openDetailsModal = (classItem) => {
     setSelectedClass(classItem);
     setModalOpen(true);
@@ -45,7 +49,6 @@ const RequstApproveClass = () => {
     setModalOpen(false);
   };
 
-  // ক্লাস Approve করা
   const handleApprove = async (id) => {
     try {
       const res = await axiosSecure.patch(`/classes/approve/${id}`, {
@@ -53,7 +56,7 @@ const RequstApproveClass = () => {
       });
       if (res.data.message) {
         Swal.fire("Approved!", "Class has been approved.", "success");
-        fetchPendingClasses();
+        fetchPendingClasses(currentPage); // 
       } else {
         Swal.fire("Oops", "Approval failed.", "error");
       }
@@ -63,7 +66,6 @@ const RequstApproveClass = () => {
     }
   };
 
-  // ক্লাস Decline করা (ডিলিট)
   const handleDecline = async (id) => {
     const confirm = await Swal.fire({
       title: "Are you sure?",
@@ -78,7 +80,12 @@ const RequstApproveClass = () => {
         const res = await axiosSecure.delete(`/classes/${id}`);
         if (res.data.message) {
           Swal.fire("Deleted!", "Class has been deleted.", "success");
-          fetchPendingClasses();
+       
+          if (pendingClasses.length === 1 && currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+          } else {
+            fetchPendingClasses(currentPage);
+          }
         } else {
           Swal.fire("Oops", "Delete failed.", "error");
         }
@@ -87,6 +94,14 @@ const RequstApproveClass = () => {
         Swal.fire("Error", "Failed to delete class", "error");
       }
     }
+  };
+
+  const handlePrev = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
+  const handleNext = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
 
   if (loading)
@@ -103,53 +118,70 @@ const RequstApproveClass = () => {
       {pendingClasses.length === 0 ? (
         <p className="text-center text-gray-600">No pending classes found.</p>
       ) : (
-        <table className="w-full table-auto border-collapse border border-gray-300">
-          <thead>
-            <tr className="bg-gray-200">
-              <th className="border border-gray-300 px-4 py-2">Title</th>
-              <th className="border border-gray-300 px-4 py-2">Teacher Name</th>
-              <th className="border border-gray-300 px-4 py-2">Price</th>
-              <th className="border border-gray-300 px-4 py-2">Status</th>
-              <th className="border border-gray-300 px-4 py-2">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {pendingClasses.map((cls) => (
-              <tr key={cls._id} className="text-center">
-                <td className="border border-gray-300 px-4 py-2">
-                  {cls.title}
-                </td>
-                <td className="border border-gray-300 px-4 py-2">{cls.name}</td>
-                <td className="border border-gray-300 px-4 py-2">
-                  ${cls.price}
-                </td>
-                <td className="border border-gray-300 px-4 py-2 capitalize">
-                  {cls.status}
-                </td>
-                <td className="border border-gray-300 px-4 py-2 space-x-2">
-                  <button
-                    onClick={() => openDetailsModal(cls)}
-                    className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
-                  >
-                    Details
-                  </button>
-                  <button
-                    onClick={() => handleApprove(cls._id)}
-                    className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
-                  >
-                    Approve
-                  </button>
-                  <button
-                    onClick={() => handleDecline(cls._id)}
-                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                  >
-                    Decline
-                  </button>
-                </td>
+        <>
+          <table className="w-full table-auto border-collapse border border-gray-300">
+            <thead>
+              <tr className="bg-gray-200">
+                <th className="border border-gray-300 px-4 py-2">Title</th>
+                <th className="border border-gray-300 px-4 py-2">Teacher Name</th>
+                <th className="border border-gray-300 px-4 py-2">Price</th>
+                <th className="border border-gray-300 px-4 py-2">Status</th>
+                <th className="border border-gray-300 px-4 py-2">Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {pendingClasses.map((cls) => (
+                <tr key={cls._id} className="text-center">
+                  <td className="border border-gray-300 px-4 py-2">{cls.title}</td>
+                  <td className="border border-gray-300 px-4 py-2">{cls.name}</td>
+                  <td className="border border-gray-300 px-4 py-2">${cls.price}</td>
+                  <td className="border border-gray-300 px-4 py-2 capitalize">{cls.status}</td>
+                  <td className="border border-gray-300 px-4 py-2 space-x-2">
+                    <button
+                      onClick={() => openDetailsModal(cls)}
+                      className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+                    >
+                      Details
+                    </button>
+                    <button
+                      onClick={() => handleApprove(cls._id)}
+                      className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
+                    >
+                      Approve
+                    </button>
+                    <button
+                      onClick={() => handleDecline(cls._id)}
+                      className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                    >
+                      Decline
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          {/* Pagination Controls */}
+          <div className="flex justify-center items-center gap-4 mt-6">
+            <button
+              onClick={handlePrev}
+              disabled={currentPage === 1}
+              className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
+            >
+              Previous
+            </button>
+            <span>
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              onClick={handleNext}
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div>
+        </>
       )}
 
       {/* Details Modal */}
@@ -163,9 +195,7 @@ const RequstApproveClass = () => {
             >
               &times;
             </button>
-            <h3 className="text-2xl font-semibold mb-4">
-              {selectedClass.title}
-            </h3>
+            <h3 className="text-2xl font-semibold mb-4">{selectedClass.title}</h3>
             <img
               src={selectedClass.image}
               alt={selectedClass.title}
@@ -181,8 +211,7 @@ const RequstApproveClass = () => {
               <strong>Price:</strong> ${selectedClass.price}
             </p>
             <p>
-              <strong>Description:</strong>{" "}
-              {selectedClass.description || "No description"}
+              <strong>Description:</strong> {selectedClass.description || "No description"}
             </p>
             <p>
               <strong>Status:</strong> {selectedClass.status}
