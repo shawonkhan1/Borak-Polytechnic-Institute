@@ -21,6 +21,7 @@ import AllClassDetails from "../Page/AllClassDetails";
 import Payment from "../Page/Payment";
 import MyEnrollClass from "../DashBord/MyEnrollClass";
 import MyEnrollClassDetails from "../DashBord/MyEnrollClassDetails";
+import MakeUsertoAdmin from "../DashBord/MakeUsertoAdmin";
 
 export const router = createBrowserRouter([
   {
@@ -128,6 +129,10 @@ export const router = createBrowserRouter([
         path: "seeDetails/:id",
         Component: MyClassDetils,
       },
+      {
+        path:'usertoadmin',
+        Component: MakeUsertoAdmin
+      }
     ],
   },
 ]);

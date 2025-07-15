@@ -7,6 +7,7 @@ import Events from "../Page/Events";
 import Faq from "../Page/Faq";
 import SummarySection from "../Page/SummarySection ";
 import TopEnrolledClasses from "../Page/TopEnrolledClasses ";
+import Revew from "../Page/Revew";
 
 const HomePage = () => {
   const { user } = useContext(AuthContext);
@@ -23,6 +24,8 @@ const HomePage = () => {
       {/* <section>
         🔹 Feedback Section 
       </section> */}
+
+      <Revew></Revew>
 
       {/* <section>
         SummarySection 

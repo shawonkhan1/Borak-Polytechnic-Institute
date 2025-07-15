@@ -10,9 +10,11 @@ const TeacherRequestsTable = () => {
   const [selectedRequest, setSelectedRequest] = useState(null);
 
   const fetchRequests = async () => {
+    setLoading(true);
     try {
       const res = await axiosSecure.get("/teacher-requests");
       setRequests(res.data);
+      setError("");
     } catch (err) {
       console.error(err);
       setError("Failed to fetch teacher requests");
@@ -39,16 +41,18 @@ const TeacherRequestsTable = () => {
 
     if (result.isConfirmed) {
       try {
+        // Update user role to teacher
         await axiosSecure.patch(`/users/role/${request.email}`, {
           role: "teacher",
         });
 
-        // Optional: update request status to "approved"
+        // Update request status to approved
         await axiosSecure.patch(`/teacher-requests/status/${request.email}`, {
           status: "approved",
         });
 
-        fetchRequests();
+        await fetchRequests(); // Refresh requests list
+        setSelectedRequest(null); // close modal if open
         Swal.fire("Approved!", "User promoted to Teacher.", "success");
       } catch (err) {
         console.error(err);
@@ -60,7 +64,7 @@ const TeacherRequestsTable = () => {
   const handleReject = async (request) => {
     const result = await Swal.fire({
       title: "Are you sure?",
-      text: "This request will be marked as rejected.",
+      text: "This request will be marked as rejected and user role will be reset to student.",
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Reject",
@@ -71,8 +75,10 @@ const TeacherRequestsTable = () => {
 
     if (result.isConfirmed) {
       try {
+        // Reject: user role set to "student", request status set to "rejected"
         await axiosSecure.patch(`/teacher-requests/reject/${request.email}`);
-        fetchRequests();
+        await fetchRequests(); // Refresh requests list
+        setSelectedRequest(null); // close modal if open
         Swal.fire("Rejected!", "Request has been marked as rejected.", "info");
       } catch (err) {
         console.error(err);
@@ -97,6 +103,7 @@ const TeacherRequestsTable = () => {
               <th className="border px-4 py-2">Title</th>
               <th className="border px-4 py-2">Category</th>
               <th className="border px-4 py-2">Experience</th>
+              <th className="border px-4 py-2">Status</th>
               <th className="border px-4 py-2">Actions</th>
             </tr>
           </thead>
@@ -108,6 +115,7 @@ const TeacherRequestsTable = () => {
                 <td className="border px-4 py-2">{req.title}</td>
                 <td className="border px-4 py-2">{req.category}</td>
                 <td className="border px-4 py-2">{req.experience}</td>
+                <td className="border px-4 py-2 capitalize">{req.status}</td>
                 <td className="border px-4 py-2">
                   <div className="flex flex-col sm:flex-row justify-center items-center gap-2">
                     <button
@@ -119,7 +127,7 @@ const TeacherRequestsTable = () => {
 
                     <button
                       onClick={() => handleApprove(req)}
-                      disabled={req.status === "rejected"}
+                      disabled={req.status === "rejected" || req.status === "approved"}
                       className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       Approve
@@ -127,7 +135,7 @@ const TeacherRequestsTable = () => {
 
                     <button
                       onClick={() => handleReject(req)}
-                      disabled={req.status === "rejected"}
+                      disabled={req.status === "rejected" || req.status === "approved"}
                       className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       Reject
@@ -136,6 +144,13 @@ const TeacherRequestsTable = () => {
                 </td>
               </tr>
             ))}
+            {requests.length === 0 && (
+              <tr>
+                <td colSpan="7" className="text-center py-6 text-gray-500">
+                  No pending requests found.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

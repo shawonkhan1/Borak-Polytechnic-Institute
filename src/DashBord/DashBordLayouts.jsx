@@ -82,6 +82,11 @@ const DashBordLayouts = () => {
             path: "request-approve",
             icon: <FaCheckCircle size={20} />, // চেক মার্ক আইকন
           },
+            {
+            name: "All Users",
+            path: "usertoadmin",
+            icon: <FaUserCircle size={20} />,
+          },
         ]
       : []),
 
