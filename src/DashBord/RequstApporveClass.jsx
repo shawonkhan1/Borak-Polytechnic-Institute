@@ -7,18 +7,24 @@ const RequstApproveClass = () => {
 
   const [pendingClasses, setPendingClasses] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedClass, setSelectedClass] = useState(null); // মডাল জন্য ক্লাস সিলেক্টেড
+  const [selectedClass, setSelectedClass] = useState(null); 
   const [modalOpen, setModalOpen] = useState(false);
 
-  // পেন্ডিং ক্লাসগুলো লোড করা
+  
   const fetchPendingClasses = async () => {
     setLoading(true);
     try {
       const res = await axiosSecure.get("/classes?status=pending");
-      setPendingClasses(res.data);
+
+      if (Array.isArray(res.data.classes)) {
+        setPendingClasses(res.data.classes);
+      } else {
+        setPendingClasses([]);
+      }
     } catch (error) {
       console.error("Failed to fetch pending classes", error);
       Swal.fire("Error", "Failed to fetch pending classes", "error");
+      setPendingClasses([]);
     } finally {
       setLoading(false);
     }
@@ -28,7 +34,7 @@ const RequstApproveClass = () => {
     fetchPendingClasses();
   }, []);
 
-  // ডিটেইলস মডাল ওপেন
+  
   const openDetailsModal = (classItem) => {
     setSelectedClass(classItem);
     setModalOpen(true);
@@ -45,7 +51,7 @@ const RequstApproveClass = () => {
       const res = await axiosSecure.patch(`/classes/approve/${id}`, {
         status: "accepted",
       });
-      if (res.data.modifiedCount > 0 || res.data.message) {
+      if (res.data.message) {
         Swal.fire("Approved!", "Class has been approved.", "success");
         fetchPendingClasses();
       } else {
@@ -70,7 +76,7 @@ const RequstApproveClass = () => {
     if (confirm.isConfirmed) {
       try {
         const res = await axiosSecure.delete(`/classes/${id}`);
-        if (res.data.deletedCount > 0 || res.data.message) {
+        if (res.data.message) {
           Swal.fire("Deleted!", "Class has been deleted.", "success");
           fetchPendingClasses();
         } else {
@@ -110,10 +116,16 @@ const RequstApproveClass = () => {
           <tbody>
             {pendingClasses.map((cls) => (
               <tr key={cls._id} className="text-center">
-                <td className="border border-gray-300 px-4 py-2">{cls.title}</td>
+                <td className="border border-gray-300 px-4 py-2">
+                  {cls.title}
+                </td>
                 <td className="border border-gray-300 px-4 py-2">{cls.name}</td>
-                <td className="border border-gray-300 px-4 py-2">${cls.price}</td>
-                <td className="border border-gray-300 px-4 py-2 capitalize">{cls.status}</td>
+                <td className="border border-gray-300 px-4 py-2">
+                  ${cls.price}
+                </td>
+                <td className="border border-gray-300 px-4 py-2 capitalize">
+                  {cls.status}
+                </td>
                 <td className="border border-gray-300 px-4 py-2 space-x-2">
                   <button
                     onClick={() => openDetailsModal(cls)}
@@ -142,25 +154,39 @@ const RequstApproveClass = () => {
 
       {/* Details Modal */}
       {modalOpen && selectedClass && (
-        <div className="fixed inset-0  bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-lg w-full relative">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-lg w-full relative shadow-lg">
             <button
               onClick={closeDetailsModal}
               className="absolute top-2 right-2 text-gray-600 hover:text-gray-900 text-xl font-bold"
+              aria-label="Close modal"
             >
               &times;
             </button>
-            <h3 className="text-2xl font-semibold mb-4">{selectedClass.title}</h3>
+            <h3 className="text-2xl font-semibold mb-4">
+              {selectedClass.title}
+            </h3>
             <img
               src={selectedClass.image}
               alt={selectedClass.title}
               className="mb-4 rounded max-h-48 object-contain w-full"
             />
-            <p><strong>Teacher:</strong> {selectedClass.name}</p>
-            <p><strong>Email:</strong> {selectedClass.email}</p>
-            <p><strong>Price:</strong> ${selectedClass.price}</p>
-            <p><strong>Description:</strong> {selectedClass.description || "No description"}</p>
-            <p><strong>Status:</strong> {selectedClass.status}</p>
+            <p>
+              <strong>Teacher:</strong> {selectedClass.name}
+            </p>
+            <p>
+              <strong>Email:</strong> {selectedClass.email}
+            </p>
+            <p>
+              <strong>Price:</strong> ${selectedClass.price}
+            </p>
+            <p>
+              <strong>Description:</strong>{" "}
+              {selectedClass.description || "No description"}
+            </p>
+            <p>
+              <strong>Status:</strong> {selectedClass.status}
+            </p>
           </div>
         </div>
       )}

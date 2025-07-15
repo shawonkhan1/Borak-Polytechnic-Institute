@@ -1,54 +1,58 @@
 import React, { useEffect, useState } from "react";
 import useAxiosSecure from "../hooks/useAxiosSecure";
-import Swal from "sweetalert2";
 import { useNavigate } from "react-router";
+import Swal from "sweetalert2";
 
 const AllClass = () => {
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
 
   const [classes, setClasses] = useState([]);
-  const [filteredClasses, setFilteredClasses] = useState([]);
   const [enrollmentsCount, setEnrollmentsCount] = useState({});
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const limit = 6;
 
-  const fetchClasses = async () => {
+  const fetchClasses = async (page = 1) => {
     setLoading(true);
     try {
-      const res = await axiosSecure.get("/classes?status=accepted");
-      setClasses(res.data);
-      setFilteredClasses(res.data); // Initialize filtered classes
+      const res = await axiosSecure.get(`/classes?page=${page}&limit=${limit}`);
+      const fetchedClasses = res.data.classes;
+      setClasses(fetchedClasses);
+      setTotalPages(res.data.totalPages);
+      setCurrentPage(res.data.currentPage);
 
+      // Enrollments count fetch
       const counts = {};
       await Promise.all(
-        res.data.map(async (cls) => {
+        fetchedClasses.map(async (cls) => {
           const countRes = await axiosSecure.get(
             `/enrollments/count?classId=${cls._id}`
           );
           counts[cls._id] = countRes.data.count || 0;
         })
       );
-
       setEnrollmentsCount(counts);
     } catch (error) {
       console.error("Failed to fetch classes", error);
+      Swal.fire("Error", "Failed to load classes", "error");
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchClasses();
-  }, []);
+    fetchClasses(currentPage);
+  }, [currentPage]);
 
-  // 🔍 Search filter
-  useEffect(() => {
-    const filtered = classes.filter((cls) =>
-      cls.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredClasses(filtered);
-  }, [searchTerm, classes]);
+  const handlePrev = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
+  const handleNext = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
 
   if (loading) return <p className="text-center mt-10">Loading classes...</p>;
 
@@ -56,49 +60,61 @@ const AllClass = () => {
     <div className="max-w-7xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6 text-center">Available Classes</h1>
 
-      {/* 🔍 Search input */}
-      <div className="max-w-md mx-auto mb-6">
-        <input
-          type="text"
-          placeholder="Search by title..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full border border-gray-300 rounded px-4 py-2"
-        />
-      </div>
-
-      {filteredClasses.length === 0 ? (
+      {classes.length === 0 ? (
         <p className="text-center">No classes found.</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredClasses.map((cls) => (
-            <div
-              key={cls._id}
-              className="border rounded-lg shadow hover:shadow-lg transition p-4 flex flex-col"
-            >
-              <img
-                src={cls.image}
-                alt={cls.title}
-                className="w-full h-40 object-cover rounded mb-4"
-              />
-              <h2 className="text-xl font-semibold mb-1">{cls.title}</h2>
-              <p className="text-gray-600 mb-2">By: {cls.name}</p>
-              <p className="text-gray-700 mb-2 line-clamp-2">
-                {cls.description || "No description provided."}
-              </p>
-              <p className="font-bold mb-2">Price: ৳{cls.price}</p>
-              <p className="mb-4">
-                Total Enrolled: {enrollmentsCount[cls._id] || 0}
-              </p>
-              <button
-                onClick={() => navigate(`/class/${cls._id}`)}
-                className="mt-auto bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+        <>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {classes.map((cls) => (
+              <div
+                key={cls._id}
+                className="border rounded-lg shadow hover:shadow-lg transition p-4 flex flex-col"
               >
-                Enroll
-              </button>
-            </div>
-          ))}
-        </div>
+                <img
+                  src={cls.image}
+                  alt={cls.title}
+                  className="w-full h-40 object-cover rounded mb-4"
+                />
+                <h2 className="text-xl font-semibold mb-1">{cls.title}</h2>
+                <p className="text-gray-600 mb-2">By: {cls.name}</p>
+                <p className="text-gray-700 mb-2 line-clamp-2">
+                  {cls.description || "No description provided."}
+                </p>
+                <p className="font-bold mb-2">Price: ৳{cls.price}</p>
+                <p className="mb-4">
+                  Total Enrolled: {enrollmentsCount[cls._id] || 0}
+                </p>
+                <button
+                  onClick={() => navigate(`/class/${cls._id}`)}
+                  className="mt-auto bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+                >
+                  Enroll
+                </button>
+              </div>
+            ))}
+          </div>
+
+          {/* Pagination Buttons */}
+          <div className="flex justify-center items-center gap-2 mt-8">
+            <button
+              onClick={handlePrev}
+              disabled={currentPage === 1}
+              className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 disabled:opacity-50"
+            >
+              Previous
+            </button>
+            <span className="px-4 font-semibold text-blue-600">
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              onClick={handleNext}
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div>
+        </>
       )}
     </div>
   );
