@@ -128,7 +128,7 @@ const MakeUserToAdmin = () => {
                     Make Student
                   </button>
                 </td>
-              </tr>
+              </tr>  
             ))}
           </tbody>
         </table>
