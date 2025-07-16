@@ -63,9 +63,10 @@ const PaymentForm = ({ id }) => {
         icon: "warning",
         title: "Permission Denied",
         text: "Only students can enroll in this class.",
+      
       });
       setProcessing(false);
-      return;
+      return navigate('/');
     }
 
     if (!stripe || !elements) return;
