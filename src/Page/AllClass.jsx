@@ -30,7 +30,9 @@ const AllClass = () => {
       const counts = {};
       await Promise.all(
         fetchedClasses.map(async (cls) => {
-          const countRes = await axiosSecure.get(`/enrollments/count?classId=${cls._id}`);
+          const countRes = await axiosSecure.get(
+            `/enrollments/count?classId=${cls._id}`
+          );
           counts[cls._id] = countRes.data.count || 0;
         })
       );
@@ -64,76 +66,85 @@ const AllClass = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-6 text-center text-blue-600">Available Classes</h1>
+  <h1 className="text-3xl sm:text-4xl font-bold mb-8 text-center text-blue-600">
+    Available Classes
+  </h1>
 
-      {/* 🔍 Search Box */}
-      <div className="mb-6 flex justify-center">
-        <input
-          type="text"
-          placeholder="Search by title..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="input input-bordered w-full max-w-md"
-        />
+  {/* 🔍 Search Box */}
+  <div className="mb-8 flex justify-center">
+    <input
+      type="text"
+      placeholder="Search by title..."
+      value={searchQuery}
+      onChange={(e) => setSearchQuery(e.target.value)}
+      className="input input-bordered w-full max-w-md px-4 py-2 text-sm sm:text-base"
+    />
+  </div>
+
+  {filteredClasses.length === 0 ? (
+    <p className="text-center text-gray-500 text-lg">No classes found.</p>
+  ) : (
+    <>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {filteredClasses.map((cls) => (
+          <div
+            key={cls._id}
+            className="border rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-5 flex flex-col bg-white"
+          >
+            <img
+              src={cls.image}
+              alt={cls.title}
+              className="w-full h-44 object-cover rounded-md mb-4"
+            />
+            <h2 className="text-xl font-semibold mb-1 text-gray-800">
+              {cls.title}
+            </h2>
+            <p className="text-gray-600 mb-2 text-sm">
+              By: <span className="font-medium">{cls.name}</span>
+            </p>
+            <p className="text-gray-600 mb-2 text-sm line-clamp-2">
+              {cls.description || "No description provided."}
+            </p>
+            <p className="text-blue-700 font-semibold mb-1">
+              Price: ৳{cls.price}
+            </p>
+            <p className="text-gray-700 mb-4 text-sm">
+              Total Enrolled: {enrollmentsCount[cls._id] || 0}
+            </p>
+            <button
+              onClick={() => navigate(`/class/${cls._id}`)}
+              className="mt-auto bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-all"
+            >
+              Enroll
+            </button>
+          </div>
+        ))}
       </div>
 
-      {filteredClasses.length === 0 ? (
-        <p className="text-center">No classes found.</p>
-      ) : (
-        <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredClasses.map((cls) => (
-              <div
-                key={cls._id}
-                className="border rounded-lg shadow hover:shadow-lg transition p-4 flex flex-col"
-              >
-                <img
-                  src={cls.image}
-                  alt={cls.title}
-                  className="w-full h-40 object-cover rounded mb-4"
-                />
-                <h2 className="text-xl font-semibold mb-1">{cls.title}</h2>
-                <p className=" mb-2">By: {cls.name}</p>
-                <p className=" mb-2 line-clamp-2">
-                  {cls.description || "No description provided."}
-                </p>
-                <p className="font-bold mb-2">Price: ৳{cls.price}</p>
-                <p className="mb-4">
-                  Total Enrolled: {enrollmentsCount[cls._id] || 0}
-                </p>
-                <button
-                  onClick={() => navigate(`/class/${cls._id}`)}
-                  className="mt-auto bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
-                >
-                  Enroll
-                </button>
-              </div>
-            ))}
-          </div>
+      {/* Pagination */}
+      <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-10">
+        <button
+          onClick={handlePrev}
+          disabled={currentPage === 1}
+          className="px-4 py-2 text-black rounded-md bg-gray-300 hover:bg-gray-400 disabled:opacity-50 transition"
+        >
+          Previous
+        </button>
+        <span className="px-4 text-blue-600 font-medium text-sm sm:text-base">
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={handleNext}
+          disabled={currentPage === totalPages}
+          className="px-4 py-2 text-black rounded-md bg-gray-300 hover:bg-gray-400 disabled:opacity-50 transition"
+        >
+          Next
+        </button>
+      </div>
+    </>
+  )}
+</div>
 
-          {/* Pagination Buttons */}
-          <div className="flex justify-center items-center gap-2 mt-8">
-            <button
-              onClick={handlePrev}
-              disabled={currentPage === 1}
-              className="px-4 py-2 text-black rounded bg-gray-300 hover:bg-gray-400 disabled:opacity-50"
-            >
-              Previous
-            </button>
-            <span className="px-4 font-semibold text-blue-600">
-              Page {currentPage} of {totalPages}
-            </span>
-            <button
-              onClick={handleNext}
-              disabled={currentPage === totalPages}
-              className="px-4 py-2 rounded bg-gray-300 text-black hover:bg-gray-400 disabled:opacity-50"
-            >
-              Next
-            </button>
-          </div>
-        </>
-      )}
-    </div>
   );
 };
 

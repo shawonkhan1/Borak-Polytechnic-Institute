@@ -1,27 +1,28 @@
 [
   {
     "id": 1,
-    "name": "10 minites School",
-    "logo": "https://i.ibb.co/ksNPK7XK/images.png"
+    "name": "RFL",
+    "logo": "https://i.ibb.co/s9Btn9nH/rfl.png"
   },
   {
     "id": 2,
     "name": "Softmax online School",
-    "logo": "https://i.ibb.co/ZpDrM6z5/images-1.jpg"
+    "logo": "https://i.ibb.co/xtM3Rnz6/softmax.png"
   },
   {
     "id": 3,
-    "name": "Papel Edu Care",
-    "logo": "https://i.ibb.co/nNXWrK5h/images-1.png"
+    "name": "10 Minits School",
+    "logo": "https://i.ibb.co/S7v0yp1g/10min.png"
   },
   {
     "id": 4,
     "name": "Unmes",
-    "logo": "https://i.ibb.co/HTmM6nWm/images.jpg"
+    "logo": "https://i.ibb.co/7x8dwNYn/unmes.png"
   },
+
   {
     "id": 5,
-    "name": "Udvas",
-    "logo": "https://i.ibb.co/LDS8HPnr/udvash.jpg"
+    "name": "Minister",
+    "logo": "https://i.ibb.co/XkvzttSf/minister.png"
   }
 ]

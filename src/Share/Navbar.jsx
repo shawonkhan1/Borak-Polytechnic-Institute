@@ -50,7 +50,7 @@ const Navbar = () => {
         className="text-2xl font-extrabold cursor-pointer text-blue-600 "
         onClick={() => (window.location.href = "/")}
       >
-        BPI
+        Borak
       </div>
 
       {/* Desktop Nav Links */}

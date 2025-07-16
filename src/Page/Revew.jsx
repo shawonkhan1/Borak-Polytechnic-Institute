@@ -16,14 +16,14 @@ const Revew = () => {
   
 if (reviews.length === 0) return null;
   return (
-    <div className="bg-base-200 py-10 px-4">
+    <div className=" py-10 px-4">
       <h2 className="text-center text-4xl font-bold text-blue-600 mb-6">
         User Reviews
       </h2>
 
       <Marquee speed={50} pauseOnHover gradient={false}>
         {reviews.length === 0 && (
-          <p className="text-center text-gray-500 w-full">No reviews found.</p>
+          <p className="text-center text-red-500 w-full">No reviews found.</p>
         )}
 
         {reviews.map((review) => (

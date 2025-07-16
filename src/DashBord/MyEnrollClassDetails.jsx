@@ -72,7 +72,6 @@ const MyEnrollClassDetails = () => {
     setRating(0);
   };
 
-  // modal function
   const handleSendFeedback = async () => {
     if (!description.trim()) {
       toast.error("Please enter feedback description.");
@@ -101,17 +100,18 @@ const MyEnrollClassDetails = () => {
     }
   };
 
-  if (loading) return <Loading></Loading>
-  if (error) return <p style={{ color: "red" }}>{error}</p>;
+  if (loading) return <Loading />;
+  if (error)
+    return <p className="text-center mt-10 text-red-500 font-semibold">{error}</p>;
 
   return (
-    <div className="pt-6 md:pl-80 p-5 bg-gray-50 min-h-screen text-black">
+    <div className="pt-6 px-4 md:px-6 lg:px-12 min-h-screen text-black">
       {/* Header */}
-      <div className="flex justify-between items-center flex-wrap bg-blue-600 text-white px-6 py-3 rounded-md mb-6">
-        <h2 className="text-xl font-semibold">Class Assignments</h2>
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center bg-blue-600 text-white px-6 py-4 rounded-md mb-6 gap-4">
+        <h2 className="text-xl font-bold">Class Assignments</h2>
         <button
           onClick={openModal}
-          className="bg-yellow-400 text-black font-semibold px-4 py-2 rounded-md hover:bg-yellow-300"
+          className="bg-yellow-400 text-black font-semibold px-4 py-2 rounded-md hover:bg-yellow-300 transition"
         >
           Teaching Evaluation Report (TER)
         </button>
@@ -122,19 +122,24 @@ const MyEnrollClassDetails = () => {
         {assignments.map((assignment) => (
           <div
             key={assignment._id}
-            className="bg-white rounded-lg shadow-md p-4 flex flex-col justify-between"
+            className="bg-white rounded-xl shadow hover:shadow-lg transition p-5 flex flex-col justify-between"
           >
             <div>
-              <h3 className="text-lg font-semibold mb-2">{assignment.title}</h3>
-              <p className="text-sm mb-2">{assignment.description}</p>
-              <p className="text-sm font-semibold mb-3">
-                Deadline: {new Date(assignment.deadline).toLocaleDateString()}
+              <h3 className="text-lg font-semibold mb-2 text-blue-700">
+                {assignment.title}
+              </h3>
+              <p className="text-sm text-gray-700 mb-2">
+                {assignment.description}
+              </p>
+              <p className="text-sm font-medium mb-3 text-gray-600">
+                Deadline:{" "}
+                {new Date(assignment.deadline).toLocaleDateString()}
               </p>
             </div>
             <div>
               <textarea
                 rows="3"
-                className="w-full p-2 border rounded-md mb-3"
+                className="w-full p-2 border border-gray-300 rounded-md mb-3 resize-none"
                 placeholder="Write your submission here..."
                 value={submissionTexts[assignment._id] || ""}
                 onChange={(e) =>
@@ -143,7 +148,7 @@ const MyEnrollClassDetails = () => {
               />
               <button
                 onClick={() => handleSubmitAssignment(assignment._id)}
-                className="bg-green-600 w-full text-white py-2 rounded-md hover:bg-green-500 font-semibold"
+                className="bg-blue-600 w-full text-white py-2 rounded-md hover:bg-blue-500 font-semibold transition"
               >
                 Submit
               </button>
@@ -167,6 +172,7 @@ const MyEnrollClassDetails = () => {
           },
           overlay: {
             backgroundColor: "rgba(0,0,0,0.5)",
+            zIndex: 1000,
           },
         }}
       >
@@ -204,8 +210,8 @@ const MyEnrollClassDetails = () => {
             className={`px-4 py-2 rounded-md text-white ${
               submitFeedbackLoading
                 ? "bg-blue-300 cursor-not-allowed"
-                : "bg-blue-600"
-            }`}
+                : "bg-blue-600 hover:bg-blue-700"
+            } transition`}
           >
             {submitFeedbackLoading ? "Sending..." : "Send"}
           </button>

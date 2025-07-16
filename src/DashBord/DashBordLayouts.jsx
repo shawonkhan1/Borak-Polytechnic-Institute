@@ -129,6 +129,11 @@ const DashBordLayouts = () => {
             path: "my-class",
             icon: <FaChalkboardTeacher size={20} />,
           },
+           {
+            name: "Add Event",
+            path: "addevent",
+            icon: <FaCalendarPlus size={20} />,
+          },
           {
             name: "Profile",
             path: "profile",
