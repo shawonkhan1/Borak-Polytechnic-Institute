@@ -8,6 +8,7 @@ import Faq from "../Page/Faq";
 import SummarySection from "../Page/SummarySection ";
 import TopEnrolledClasses from "../Page/TopEnrolledClasses ";
 import Revew from "../Page/Revew";
+import Loading from "../Share/Loading";
 
 const HomePage = () => {
   const { user } = useContext(AuthContext);
@@ -15,6 +16,7 @@ const HomePage = () => {
   return (
     <div>
       <Banner></Banner>
+    
       <OurPatner></OurPatner>
       <TopEnrolledClasses></TopEnrolledClasses>
       {/* <section>

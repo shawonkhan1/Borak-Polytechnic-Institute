@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import Loading from "../Share/Loading";
 
 const TeacherRequestsTable = () => {
   const axiosSecure = useAxiosSecure();
@@ -48,12 +49,12 @@ const TeacherRequestsTable = () => {
 
     if (result.isConfirmed) {
       try {
-        // ১. status update with body
+     
         await axiosSecure.patch(`/teacher-requests/status/${req.email}`, {
           status: "approved",
         });
 
-        // ২. role update with body
+       
         await axiosSecure.patch(`/users/role/${req.email}`, {
           role: "teacher",
         });
@@ -107,7 +108,7 @@ const TeacherRequestsTable = () => {
 
   return (
     <div className="max-w-7xl mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4 text-center">Teacher Requests</h2>
+      <h2 className="text-4xl font-bold mb-4 text-blue-600 md:text-center">Teacher Requests</h2>
 
       {/* Search Category */}
       <div className="flex justify-end mb-4">
@@ -121,7 +122,7 @@ const TeacherRequestsTable = () => {
       </div>
 
       {loading ? (
-        <p className="text-center mt-10">Loading requests...</p>
+        <Loading></Loading>
       ) : error ? (
         <p className="text-red-500 text-center">{error}</p>
       ) : (

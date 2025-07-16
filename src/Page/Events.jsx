@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import useAxiosSecure from "../hooks/useAxiosSecure"; // তোমার axios instance
+import useAxiosSecure from "../hooks/useAxiosSecure"; 
+import Loading from "../Share/Loading";
 
 const Events = () => {
   const axiosSecure = useAxiosSecure();
@@ -9,13 +10,12 @@ const Events = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const res = await axiosSecure.get("/events");  // API থেকে GET কল
+        const res = await axiosSecure.get("/events"); 
         const allEvents = res.data;
 
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
-        // আজকের দিন বা পরের দিনগুলোর ইভেন্ট ফিল্টার করছি
         const upcomingEvents = allEvents.filter(event => {
           const eventDate = new Date(event.date);
           eventDate.setHours(0, 0, 0, 0);
@@ -33,13 +33,13 @@ const Events = () => {
     fetchEvents();
   }, [axiosSecure]);
 
-  if (loading) return <p className="text-center mt-10">Loading events...</p>;
+  if (loading) return <Loading></Loading>;
   if (events.length === 0) return "";
 
   return (
     <section className="py-16 bg-white rounded-2xl">
       <div className="max-w-full mx-auto px-6">
-        <h2 className="text-4xl font-extrabold text-center text-primary mb-12">
+        <h2 className="text-4xl font-extrabold text-center text-blue-600 mb-12">
           Upcoming Events
         </h2>
 

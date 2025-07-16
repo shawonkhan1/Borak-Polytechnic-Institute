@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import { useNavigate } from "react-router";
+import Loading from "../Share/Loading";
 
 const TopEnrolledClasses = () => {
   const axiosSecure = useAxiosSecure();
@@ -43,7 +44,7 @@ const TopEnrolledClasses = () => {
     fetchTopEnrolledClasses();
   }, []);
 
-  if (loading) return <p className="text-center mt-10">Loading top classes...</p>;
+  if (loading) return <Loading></Loading>;
   if (topClasses.length === 0) return null;
   return (
     <div className="max-w-7xl mx-auto px-4 py-10">

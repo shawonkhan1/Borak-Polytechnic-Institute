@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import Loading from "../Share/Loading";
 
 const UpdateMyClass = () => {
   const { id } = useParams();
@@ -76,14 +77,12 @@ const UpdateMyClass = () => {
 
   if (loading)
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        Loading class details...
-      </div>
+     <Loading></Loading>
     );
 
   return (
     <div className="max-w-3xl mx-auto p-6">
-      <h2 className="text-3xl font-bold mb-6 text-center">Update Class</h2>
+      <h2 className="text-4xl text-blue-600 font-bold mb-6  md:text-center">Update Class</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block mb-1 font-semibold" htmlFor="title">

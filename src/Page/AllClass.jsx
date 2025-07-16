@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
+import Loading from "../Share/Loading";
 
 const AllClass = () => {
   const axiosSecure = useAxiosSecure();
@@ -59,11 +60,11 @@ const AllClass = () => {
     cls.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  if (loading) return <p className="text-center mt-10">Loading classes...</p>;
+  if (loading) return <Loading></Loading>;
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6 text-center">Available Classes</h1>
+      <h1 className="text-4xl font-bold mb-6 text-center text-blue-600">Available Classes</h1>
 
       {/* 🔍 Search Box */}
       <div className="mb-6 flex justify-center">

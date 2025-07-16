@@ -14,10 +14,12 @@ import {
   FaCalendarPlus,
   FaMoon,
   FaSun,
+  FaMoneyCheckAlt,
 } from "react-icons/fa";
 
 import { AuthContext } from "../AuthProvider/AuthProvider";
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import Loading from "../Share/Loading";
 
 const DashBordLayouts = () => {
   const [isOpen, setIsOpen] = useState(false); // sidebar মোবাইল টগল
@@ -74,9 +76,7 @@ const DashBordLayouts = () => {
 
   if (loadingRole)
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <p className="text-lg font-medium">Loading...</p>
-      </div>
+      <Loading></Loading>
     );
 
   const links = [
@@ -98,6 +98,11 @@ const DashBordLayouts = () => {
             name: "All Users",
             path: "usertoadmin",
             icon: <FaUserCircle size={20} />,
+          },
+          {
+            name: "Payment History",
+            path: "paymentHistory",
+            icon: <FaMoneyCheckAlt size={20} />
           },
           {
             name: "Add Event",

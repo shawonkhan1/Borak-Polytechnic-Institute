@@ -73,7 +73,7 @@ const AddClass = () => {
 
   return (
     <section className="max-w-3xl mx-auto p-6 bg-white rounded-xl shadow mt-10">
-      <h2 className="text-3xl font-bold mb-6 text-center text-primary">
+      <h2 className="text-4xl font-bold text-blue-600 mb-6 md:text-center ">
         Add a New Class
       </h2>
 

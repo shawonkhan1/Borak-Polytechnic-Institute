@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import Loading from "../Share/Loading";
 
 const DashProfile = () => {
   const { user } = useContext(AuthContext);
@@ -31,7 +32,7 @@ const DashProfile = () => {
   }, [user?.email, axiosSecure]);
 
   if (loading)
-    return <p className="text-center mt-10 text-lg">Loading profile...</p>;
+    return <Loading></Loading>;
 
   if (error)
     return (
@@ -40,7 +41,7 @@ const DashProfile = () => {
 
   return (
     <div className="max-w-md mx-auto bg-white p-6 rounded shadow mt-10">
-      <h2 className="text-2xl font-bold mb-6 text-center text-black">My Profile</h2>
+      <h2 className="text-2xl font-bold mb-6 text-center text-blue-600">My Profile</h2>
 
       <div className="flex flex-col items-center space-y-4">
         {/* User Image */}

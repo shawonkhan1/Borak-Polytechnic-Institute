@@ -4,6 +4,7 @@ import axios from "axios";
 import { FcGoogle } from "react-icons/fc";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 import { useLocation, useNavigate } from "react-router";
+import Loading from "../Share/Loading";
 
 const GoogleLoginButton = () => {
   const { googleLogin } = useContext(AuthContext);
@@ -50,7 +51,7 @@ const GoogleLoginButton = () => {
       className="btn btn-outline w-full flex items-center justify-center gap-2 mt-4"
     >
       <FcGoogle className="text-2xl" />
-      {mutation.isLoading ? "Loading..." : "Continue with Google"}
+      {mutation.isLoading ? <Loading></Loading> : "Continue with Google"}
     </button>
   );
 };

@@ -9,7 +9,7 @@ const Footer = () => {
         
         {/* Brand */}
         <div>
-          <h2 className="text-2xl font-bold text-primary mb-2">Borak Polytechnic Institute</h2>
+          <h2 className="text-2xl font-bold text-blue-600 mb-2">Borak Polytechnic Institute</h2>
           <p className="text-sm leading-relaxed">
             Empowering students and teachers through seamless online class & learning management.
           </p>

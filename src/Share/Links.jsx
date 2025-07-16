@@ -17,8 +17,8 @@ const NavLinks = ({ onLinkClick }) => {
           onClick={onLinkClick}
           className={({ isActive }) =>
             isActive
-              ? "text-primary font-bold "
-              : "hover:text-primary"
+              ? "text-blue-600  shadow font-bold "
+              : "hover:text-blue-600"
           }
           style={{ margin: "0 10px" }}
         >

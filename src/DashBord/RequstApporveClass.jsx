@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import Loading from "../Share/Loading";
 
 const RequstApproveClass = () => {
   const axiosSecure = useAxiosSecure();
@@ -106,17 +107,15 @@ const RequstApproveClass = () => {
 
   if (loading)
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <p>Loading pending classes...</p>
-      </div>
+      <Loading></Loading>
     );
 
   return (
     <div className="p-6 max-w-5xl mx-auto">
-      <h2 className="text-3xl font-bold mb-6 text-center">Pending Classes</h2>
+      <h2 className="text-4xl font-bold mb-6 text-center text-blue-600">Pending Classes</h2>
 
       {pendingClasses.length === 0 ? (
-        <p className="text-center text-gray-600">No pending classes found.</p>
+        <p className="text-center text-blue-600">No pending classes found.</p>
       ) : (
         <>
           <table className="w-full table-auto border-collapse border border-gray-300">

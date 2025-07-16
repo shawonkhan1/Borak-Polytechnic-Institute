@@ -3,6 +3,7 @@ import { AuthContext } from "../AuthProvider/AuthProvider";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router";
+import Loading from "../Share/Loading";
 
 const categories = [
   "Web Development",
@@ -78,7 +79,7 @@ const ApplyTeacher = () => {
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded-2xl shadow mt-10">
-      <h2 className="text-2xl font-bold mb-6 text-center text-black">
+      <h2 className="text-2xl font-bold mb-6 text-center text-blue-600">
         Apply for Teacher
       </h2>
 
@@ -161,7 +162,7 @@ const ApplyTeacher = () => {
           disabled={loading}
           className="w-full bg-blue-600 text-white py-3 rounded hover:bg-blue-700 transition"
         >
-          {loading ? "Submitting..." : "Submit for Review"}
+          {loading ? <Loading></Loading> : "Submit for Review"}
         </button>
       </form>
 

@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import Loading from "../Share/Loading";
 
 const imgbbApiKey = import.meta.env.VITE_IMGBB_API_KEY;
 
@@ -115,11 +116,11 @@ const MyClassDetails = () => {
     }
   };
 
-  if (loading) return <p className="text-center mt-20 text-lg font-medium">Loading class details...</p>;
+  if (loading) return <Loading></Loading>;
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6 text-center text-blue-800">{classInfo?.title}</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center text-blue-600">{classInfo?.title}</h1>
 
       {/* Class Progress */}
       <section className="mb-8">
@@ -159,7 +160,7 @@ const MyClassDetails = () => {
             {assignments.map((a) => (
               <div key={a._id} className="border rounded shadow p-4 bg-white">
                 <h3 className="text-lg font-semibold text-gray-800 mb-1">{a.title}</h3>
-                <p className="text-sm mb-2">
+                <p className="text-sm mb-2 text-black">
                   📅 Deadline:{" "}
                   <span className="font-medium">{new Date(a.deadline).toLocaleDateString()}</span>
                 </p>
@@ -171,7 +172,7 @@ const MyClassDetails = () => {
                   />
                 )}
                 {a.description && (
-                  <p className="text-sm  mb-2">{a.description}</p>
+                  <p className="text-sm  text-black mb-2">{a.description}</p>
                 )}
                 <p className="text-sm font-medium text-blue-600">
                   📤 Submissions: {a.submissionCount}
@@ -251,7 +252,7 @@ const MyClassDetails = () => {
                 disabled={isSubmitting}
                 className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 disabled:opacity-50"
               >
-                {isSubmitting ? "Uploading..." : "Add Assignment"}
+                {isSubmitting ? <Loading></Loading> : "Add Assignment"}
               </button>
             </form>
           </div>

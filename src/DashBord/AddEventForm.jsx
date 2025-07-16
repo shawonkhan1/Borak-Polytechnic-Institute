@@ -31,7 +31,7 @@ const AddEventForm = () => {
 
   return (
     <div className="max-w-xl mx-auto my-10 bg-white p-8 rounded-xl shadow-md">
-      <h2 className="text-2xl font-bold text-center text-primary mb-6">
+      <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">
         Add New Event
       </h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
@@ -77,7 +77,7 @@ const AddEventForm = () => {
        <div className="flex justify-center"> 
          <button
           type="submit"
-          className="bg-primary text-white font-medium py-2 px-6 rounded hover:bg-primary/90 transition"
+          className="bg-blue-600 text-white font-medium py-2 px-6 rounded hover:bg-blue-600 transition"
         >
           Submit Event
         </button>

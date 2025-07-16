@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Loading from "../Share/Loading";
 
 const OurPartner = () => {
   const [partners, setPartners] = useState([]);
@@ -11,12 +12,12 @@ const OurPartner = () => {
   }, []);
 
   if (partners.length === 0) {
-    return <p className="text-center text-lg font-semibold py-10">Loading...</p>;
+    return <Loading></Loading>
   }
 
   return (
     <div className="max-w-6xl mx-auto px-4 p-25">
-      <h2 className="text-4xl font-bold text-center mb-8">Our Partners</h2>
+      <h2 className="text-4xl font-bold text-center text-blue-600 mb-8">Our Partners</h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 items-center justify-center">
         {partners.map((partner) => (
           <div key={partner.id} className="flex items-center justify-center h-50px">

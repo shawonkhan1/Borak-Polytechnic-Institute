@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import Loading from "../Share/Loading";
 
 const MakeUserToAdmin = () => {
   const [users, setUsers] = useState([]);
@@ -58,16 +59,16 @@ const MakeUserToAdmin = () => {
     user.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  if (loading) return <p className="text-center">Loading users...</p>;
+  if (loading) return <Loading></Loading>;
   if (error) return <p className="text-center text-red-500">{error}</p>;
 
   return (
     <div className="p-4">
-      <h1 className="text-xl md:text-2xl font-bold mb-4 text-center">
+      <h1 className="text-xl md:text-4xl text-blue-600 font-bold mb-4 md:text-center">
         Manage Users Roles
       </h1>
 
-      {/* 🔍 Search Box */}
+      {/*  Search Box */}
       <div className="mb-4 flex justify-center">
         <input
           type="text"

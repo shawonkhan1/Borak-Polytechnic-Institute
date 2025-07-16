@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 import { useNavigate } from "react-router";
+import Loading from "../Share/Loading";
 
 const MyEnrollClass = () => {
   const { user } = useContext(AuthContext);
@@ -62,7 +63,7 @@ const MyEnrollClass = () => {
 
   if (loading)
     return (
-      <p className="text-center mt-10 text-gray-700">Loading your enrolled classes...</p>
+      <Loading></Loading>
     );
 
   if (error)
@@ -72,7 +73,7 @@ const MyEnrollClass = () => {
 
   if (classes.length === 0)
     return (
-      <p className="text-center mt-10 text-gray-600">You have not enrolled in any classes yet.</p>
+      <p className="text-4xl font-bold md:text-center mt-10 text-blue-600">You have not enrolled in any classes yet.</p>
     );
 
   // Pagination Logic
@@ -94,7 +95,7 @@ const MyEnrollClass = () => {
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
-      <h2 className="text-3xl font-bold text-center mb-8">My Enrolled Classes</h2>
+      <h2 className="text-4xl font-bold text-blue-600 md:text-center mb-8">My Enrolled Classes</h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {currentClasses.map((cls) => (
@@ -118,7 +119,7 @@ const MyEnrollClass = () => {
               </p>
               <button
                 onClick={() => handleContinue(cls._id)}
-                className="btn btn-primary mt-auto"
+                className="btn text-white bg-blue-600 mt-auto"
               >
                 Continue
               </button>

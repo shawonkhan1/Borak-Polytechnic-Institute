@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import Loading from "../Share/Loading";
 
 const AllClassDetails = () => {
   const { id } = useParams();
@@ -31,7 +32,7 @@ const AllClassDetails = () => {
   };
 
   if (loading)
-    return <p className="text-center mt-10">Loading class details...</p>;
+    return Loading;
   if (!classDetails)
     return <p className="text-center mt-10">No class details found.</p>;
 

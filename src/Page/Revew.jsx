@@ -17,7 +17,7 @@ const Revew = () => {
 if (reviews.length === 0) return null;
   return (
     <div className="bg-base-200 py-10 px-4">
-      <h2 className="text-center text-3xl font-bold text-primary mb-6">
+      <h2 className="text-center text-4xl font-bold text-blue-600 mb-6">
         User Reviews
       </h2>
 

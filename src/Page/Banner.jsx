@@ -7,6 +7,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
+import Loading from "../Share/Loading";
 
 const Banner = () => {
   const [slides, setSlides] = useState([]);
@@ -19,7 +20,7 @@ const Banner = () => {
   }, []);
 
   if (slides.length === 0) {
-    return <p>loading.......</p>;
+    return <Loading></Loading>;
   }
 
   return (

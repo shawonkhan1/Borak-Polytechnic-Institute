@@ -23,12 +23,14 @@ import MyEnrollClass from "../DashBord/MyEnrollClass";
 import MyEnrollClassDetails from "../DashBord/MyEnrollClassDetails";
 import MakeUsertoAdmin from "../DashBord/MakeUsertoAdmin";
 import AddEventForm from "../DashBord/AddEventForm";
+import ErrorPage from "../Share/ErrorPage";
+import PaymentHistory from "../DashBord/PaymentHistory";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     Component: HomeLayout,
-    errorElement: <p>this is error page</p>,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         path: "/",
@@ -156,6 +158,12 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path: 'paymentHistory',
+        element: <PrivateRoute>
+          <PaymentHistory></PaymentHistory>
+        </PrivateRoute>
+      }
     ],
   },
 ]);

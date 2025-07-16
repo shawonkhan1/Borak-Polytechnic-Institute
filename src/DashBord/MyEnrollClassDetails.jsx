@@ -5,6 +5,7 @@ import Rating from "react-rating";
 import Modal from "react-modal";
 import { toast } from "react-toastify";
 import { AuthContext } from "../AuthProvider/AuthProvider";
+import Loading from "../Share/Loading";
 
 Modal.setAppElement("#root");
 
@@ -100,7 +101,7 @@ const MyEnrollClassDetails = () => {
     }
   };
 
-  if (loading) return <p>Loading assignments...</p>;
+  if (loading) return <Loading></Loading>
   if (error) return <p style={{ color: "red" }}>{error}</p>;
 
   return (
@@ -169,7 +170,7 @@ const MyEnrollClassDetails = () => {
           },
         }}
       >
-        <h2 className="text-xl font-semibold mb-4">
+        <h2 className="text-xl text-blue-600 font-semibold mb-4">
           Teaching Evaluation Report
         </h2>
         <div className="mb-4">

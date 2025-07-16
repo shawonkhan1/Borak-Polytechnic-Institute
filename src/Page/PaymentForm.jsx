@@ -4,6 +4,7 @@ import useAxiosSecure from "../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 import { useNavigate } from "react-router";
+import Loading from "../Share/Loading";
 
 const PaymentForm = ({ id }) => {
   const stripe = useStripe();
@@ -54,94 +55,203 @@ const PaymentForm = ({ id }) => {
     if (user?.email) fetchUserRole();
   }, [user?.email, axiosSecure]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setProcessing(true);
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setProcessing(true);
 
-    if (role !== "student") {
-      Swal.fire({
-        icon: "warning",
-        title: "Permission Denied",
-        text: "Only students can enroll in this class.",
+  //   if (role !== "student") {
+  //     Swal.fire({
+  //       icon: "warning",
+  //       title: "Permission Denied",
+  //       text: "Only students can enroll in this class.",
       
-      });
-      setProcessing(false);
-      return navigate('/');
-    }
+  //     });
+  //     setProcessing(false);
+  //     return navigate('/');
+  //   }
 
-    if (!stripe || !elements) return;
+  //   if (!stripe || !elements) return;
 
-    const card = elements.getElement(CardElement);
-    if (!card) return;
+  //   const card = elements.getElement(CardElement);
+  //   if (!card) return;
 
-    const { error: methodError, paymentMethod } =
-      await stripe.createPaymentMethod({
-        type: "card",
-        card,
-      });
+  //   const { error: methodError, paymentMethod } =
+  //     await stripe.createPaymentMethod({
+  //       type: "card",
+  //       card,
+  //     });
 
-    if (methodError) {
-      setError(methodError.message);
-      setProcessing(false);
-      return;
-    }
+  //   if (methodError) {
+  //     setError(methodError.message);
+  //     setProcessing(false);
+  //     return;
+  //   }
 
-    setError("");
+  //   setError("");
 
-    const { paymentIntent, error: confirmError } =
-      await stripe.confirmCardPayment(clientSecret, {
-        payment_method: paymentMethod.id,
-      });
+  //   const { paymentIntent, error: confirmError } =
+  //     await stripe.confirmCardPayment(clientSecret, {
+  //       payment_method: paymentMethod.id,
+  //     });
 
-    if (confirmError) {
-      setError(confirmError.message);
-    } else {
-      console.log(" Payment Successful:", paymentIntent);
+  //   if (confirmError) {
+  //     setError(confirmError.message);
+  //   } else {
+  //     console.log(" Payment Successful:", paymentIntent);
 
-      try {
-        const response = await axiosSecure.post("/enrollments", {
-          classId: id,
-          studentEmail: user?.email,
-        });
+  //     try {
 
-        if (response.data?.insertedId) {
-          Swal.fire({
-            title: "Payment Successful!",
-            text: "You are now enrolled in this class.",
-            icon: "success",
-            confirmButtonText: "OK",
-          }).then(() => {
-            navigate("/dashboard/my-enroll-class");
-          });
-        } else if (response.data?.message === "Already enrolled") {
-          Swal.fire({
-            title: "Already Enrolled",
-            text: "You are already enrolled in this class.",
-            icon: "info",
-            confirmButtonText: "OK",
-          });
-        } else {
-          Swal.fire({
-            title: "Enrollment Error",
-            text: "Payment done but enrollment failed.",
-            icon: "error",
-          });
-        }
-      } catch (enrollErr) {
-        console.error("Enrollment error:", enrollErr);
+
+  //       const response = await axiosSecure.post("/enrollments", {
+  //         classId: id,
+  //         studentEmail: user?.email,
+  //       });
+
+  //       if (response.data?.insertedId) {
+  //         Swal.fire({
+  //           title: "Payment Successful!",
+  //           text: "You are now enrolled in this class.",
+  //           icon: "success",
+  //           confirmButtonText: "OK",
+  //         }).then(() => {
+  //           navigate("/dashboard/my-enroll-class");
+  //         });
+  //       } else if (response.data?.message === "Already enrolled") {
+  //         Swal.fire({
+  //           title: "Already Enrolled",
+  //           text: "You are already enrolled in this class.",
+  //           icon: "info",
+  //           confirmButtonText: "OK",
+  //         });
+  //       } else {
+  //         Swal.fire({
+  //           title: "Enrollment Error",
+  //           text: "Payment done but enrollment failed.",
+  //           icon: "error",
+  //         });
+  //       }
+  //     } catch (enrollErr) {
+  //       console.error("Enrollment error:", enrollErr);
+  //       Swal.fire({
+  //         title: "Server Error",
+  //         text: "Payment done but something went wrong while saving enrollment.",
+  //         icon: "error",
+  //       });
+  //     }
+  //   }
+
+  //   setProcessing(false);
+  // };
+  
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  setProcessing(true);
+
+  if (role !== "student") {
+    Swal.fire({
+      icon: "warning",
+      title: "Permission Denied",
+      text: "Only students can enroll in this class.",
+    });
+    setProcessing(false);
+    return navigate("/");
+  }
+
+  if (!stripe || !elements) return;
+
+  const card = elements.getElement(CardElement);
+  if (!card) return;
+
+  const { error: methodError, paymentMethod } = await stripe.createPaymentMethod({
+    type: "card",
+    card,
+  });
+
+  if (methodError) {
+    setError(methodError.message);
+    setProcessing(false);
+    return;
+  }
+
+  setError("");
+
+  const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
+    payment_method: paymentMethod.id,
+  });
+
+  if (confirmError) {
+    setError(confirmError.message);
+  } else {
+    console.log("Payment Successful:", paymentIntent);
+
+    try {
+      // পেমেন্ট ডাটা তৈরি
+      const paymentData = {
+        classId: id,
+        studentEmail: user?.email,
+        amount: paymentIntent.amount / 100, // স্ট্রাইপ amount সেন্টে থাকে
+        transactionId: paymentIntent.id,
+        status: paymentIntent.status,
+        paymentMethod: paymentIntent.payment_method_types[0],
+        createdAt: new Date(),
+      };
+
+      // পেমেন্ট ডাটা আলাদা কালেকশনে সেভ করার API কল
+      const paymentResponse = await axiosSecure.post("/payments", paymentData);
+
+      if (!paymentResponse.data.insertedId) {
         Swal.fire({
-          title: "Server Error",
-          text: "Payment done but something went wrong while saving enrollment.",
+          title: "Payment Data Save Error",
+          text: "Payment was successful but failed to save payment data.",
           icon: "error",
         });
       }
-    }
 
-    setProcessing(false);
-  };
+      // এরপর এনরোলমেন্টের API কল
+      const response = await axiosSecure.post("/enrollments", {
+        classId: id,
+        studentEmail: user?.email,
+      });
+
+      if (response.data?.insertedId) {
+        Swal.fire({
+          title: "Payment Successful!",
+          text: "You are now enrolled in this class.",
+          icon: "success",
+          confirmButtonText: "OK",
+        }).then(() => {
+          navigate("/dashboard/my-enroll-class");
+        });
+      } else if (response.data?.message === "Already enrolled") {
+        Swal.fire({
+          title: "Already Enrolled",
+          text: "You are already enrolled in this class.",
+          icon: "info",
+          confirmButtonText: "OK",
+        });
+      } else {
+        Swal.fire({
+          title: "Enrollment Error",
+          text: "Payment done but enrollment failed.",
+          icon: "error",
+        });
+      }
+    } catch (error) {
+      console.error("Error during payment or enrollment:", error);
+      Swal.fire({
+        title: "Server Error",
+        text: "Payment done but something went wrong on the server.",
+        icon: "error",
+      });
+    }
+  }
+
+  setProcessing(false);
+};
+
 
   if (loading)
-    return <p className="text-center mt-10">Loading class data...</p>;
+    return <Loading></Loading>
   if (!classData) return <p className="text-center mt-10">No class found.</p>;
 
   return (
