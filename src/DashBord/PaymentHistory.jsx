@@ -8,7 +8,7 @@ const PaymentHistory = () => {
   const [error, setError] = useState("");
   const [page, setPage] = useState(1); // 
   const [totalPages, setTotalPages] = useState(1); 
-  const limit = 10; 
+  const limit = 6; 
 
   const axiosSecure = useAxiosSecure();
 
@@ -92,7 +92,7 @@ const PaymentHistory = () => {
             key={i + 1}
             onClick={() => setPage(i + 1)}
             className={`px-4 py-2 rounded ${
-              page === i + 1 ? "bg-blue-600 text-white" : "bg-gray-200 hover:bg-gray-300"
+              page === i + 1 ? "bg-blue-600 text-white" : "bg-gray-200  text-black hover:bg-blue-600"
             }`}
           >
             {i + 1}

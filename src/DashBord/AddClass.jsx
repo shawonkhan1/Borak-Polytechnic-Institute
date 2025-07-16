@@ -60,7 +60,7 @@ const AddClass = () => {
           Swal.fire("Success!", "Class submitted for review.", "success");
           reset();
           setPreviewImage(null);
-          navigate("/dashboard");
+          navigate("/dashboard/my-class");
         }
       } else {
         Swal.fire("Error", "Image upload failed!", "error");

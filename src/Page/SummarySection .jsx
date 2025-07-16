@@ -23,9 +23,9 @@ const SummarySection = () => {
       });
 
     // ✅ Load accepted classes only
-    axiosSecure.get("/classes")
+    axiosSecure.get("/classes?status=accepted")
       .then(res => {
-        const acceptedClasses = res.data?.filter(cls => cls.status === "accepted") || [];
+        const acceptedClasses = res.data?.classes || [];
         setSummaryData(prev => ({ ...prev, classes: acceptedClasses.length }));
       })
       .catch(err => {

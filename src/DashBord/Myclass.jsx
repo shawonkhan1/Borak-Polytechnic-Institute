@@ -97,11 +97,11 @@ const MyClass = () => {
                   className="w-full h-48 object-cover"
                 />
                 <div className="p-5 flex flex-col gap-2">
-                  <h3 className="text-xl font-bold text-gray-800">{cls.title}</h3>
-                  <p className="text-sm text-gray-500"><strong>Instructor:</strong> {cls.name}</p>
-                  <p className="text-sm text-gray-500"><strong>Email:</strong> {cls.email}</p>
-                  <p className="text-sm text-gray-600"><strong>Price:</strong> ${cls.price}</p>
-                  <p className="text-sm text-gray-600">
+                  <h3 className="text-xl font-bold text-black">{cls.title}</h3>
+                  <p className="text-sm text-black"><strong>Instructor:</strong> {cls.name}</p>
+                  <p className="text-sm text-black "><strong>Email:</strong> {cls.email}</p>
+                  <p className="text-sm text-black"><strong>Price:</strong> ${cls.price}</p>
+                  <p className="text-sm text-black">
                     <strong>Description:</strong>{" "}
                     {cls.description || "No description provided."}
                   </p>
