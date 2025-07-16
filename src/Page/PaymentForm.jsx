@@ -4,13 +4,12 @@ import useAxiosSecure from "../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 import { useNavigate } from "react-router";
-// 🔁 ইউজার তথ্য
 
 const PaymentForm = ({ id }) => {
   const stripe = useStripe();
   const elements = useElements();
   const axiosSecure = useAxiosSecure();
-  const { user } = useContext(AuthContext); // 🔁 ইউজার কনটেক্সট থেকে ইমেইল
+  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [classData, setClassData] = useState(null);
@@ -18,6 +17,7 @@ const PaymentForm = ({ id }) => {
   const [loading, setLoading] = useState(true);
   const [clientSecret, setClientSecret] = useState("");
   const [processing, setProcessing] = useState(false);
+  const [role, setRole] = useState(null); 
 
   useEffect(() => {
     const fetchClass = async () => {
@@ -40,9 +40,33 @@ const PaymentForm = ({ id }) => {
     if (id) fetchClass();
   }, [id, axiosSecure]);
 
+  //  fetch user role
+  useEffect(() => {
+    const fetchUserRole = async () => {
+      try {
+        const res = await axiosSecure.get(`/users?email=${user?.email}`);
+        setRole(res?.data?.[0]?.role || null);
+      } catch (err) {
+        console.error("Error fetching user role", err);
+      }
+    };
+
+    if (user?.email) fetchUserRole();
+  }, [user?.email, axiosSecure]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setProcessing(true);
+
+    if (role !== "student") {
+      Swal.fire({
+        icon: "warning",
+        title: "Permission Denied",
+        text: "Only students can enroll in this class.",
+      });
+      setProcessing(false);
+      return;
+    }
 
     if (!stripe || !elements) return;
 
@@ -71,7 +95,7 @@ const PaymentForm = ({ id }) => {
     if (confirmError) {
       setError(confirmError.message);
     } else {
-      console.log("✅ Payment Successful:", paymentIntent);
+      console.log(" Payment Successful:", paymentIntent);
 
       try {
         const response = await axiosSecure.post("/enrollments", {
@@ -86,7 +110,7 @@ const PaymentForm = ({ id }) => {
             icon: "success",
             confirmButtonText: "OK",
           }).then(() => {
-            navigate("/dashboard/my-enroll-class"); // ✅ navigate after confirmation
+            navigate("/dashboard/my-enroll-class");
           });
         } else if (response.data?.message === "Already enrolled") {
           Swal.fire({
