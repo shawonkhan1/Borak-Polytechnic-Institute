@@ -89,10 +89,10 @@ const AddClass = () => {
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         <div>
-          <label className="font-medium">Title</label>
+          <label className="font-medium text-black">Title</label>
           <input
             {...register("title", { required: true })}
-            className="w-full border p-2 rounded mt-1"
+            className="w-full border text-black p-2 rounded mt-1"
             placeholder="Enter class title"
           />
           {errors.title && (
@@ -101,30 +101,30 @@ const AddClass = () => {
         </div>
 
         <div>
-          <label className="font-medium">Name</label>
+          <label className="font-medium text-black">Name</label>
           <input
             value={user?.displayName || ""}
             readOnly
-            className="w-full border p-2 rounded mt-1 bg-gray-100"
+            className="w-full border text-black p-2 rounded mt-1 bg-gray-100"
           />
         </div>
 
         <div>
-          <label className="font-medium">Email</label>
+          <label className="font-medium text-black">Email</label>
           <input
             value={user?.email || ""}
             readOnly
-            className="w-full border p-2 rounded mt-1 bg-gray-100"
+            className="w-full border text-black p-2 rounded mt-1 bg-gray-100"
           />
         </div>
 
         <div>
-          <label className="font-medium">Price</label>
+          <label className="font-medium text-black">Price</label>
           <input
             type="number"
             step="0.01"
             {...register("price", { required: true })}
-            className="w-full border p-2 rounded mt-1"
+            className="w-full border text-black p-2 rounded mt-1"
             placeholder="Enter price"
           />
           {errors.price && (
@@ -133,13 +133,13 @@ const AddClass = () => {
         </div>
 
         <div>
-          <label className="font-medium">Upload Image</label>
+          <label className="font-medium text-black">Upload Image</label>
           <input
             type="file"
             accept="image/*"
             {...register("image", { required: true })}
             onChange={handleImageChange}
-            className="w-full border p-2 rounded mt-1"
+            className="w-full border text-black p-2 rounded mt-1"
           />
           {errors.image && (
             <span className="text-red-500">Image is required</span>
@@ -147,10 +147,10 @@ const AddClass = () => {
         </div>
 
         <div>
-          <label className="font-medium">Description</label>
+          <label className="font-medium text-black">Description</label>
           <textarea
             {...register("description")}
-            className="w-full border p-2 rounded mt-1"
+            className="w-full border p-2 text-black rounded mt-1"
             rows="4"
             placeholder="Class description"
           ></textarea>

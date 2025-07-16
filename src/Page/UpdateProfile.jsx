@@ -73,7 +73,7 @@ const UpdateProfile = () => {
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded shadow-md mt-10">
-      <h2 className="text-xl font-bold text-center mb-4">Update Profile</h2>
+      <h2 className="text-xl font-bold text-black text-center mb-4">Update Profile</h2>
 
       {/* Image Preview */}
       {preview && (
@@ -89,7 +89,7 @@ const UpdateProfile = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* Name Field */}
         <div>
-          <label className="label">Name</label>
+          <label className="label text-black">Name</label>
           <input
             type="text"
             defaultValue={user?.displayName}
@@ -100,7 +100,7 @@ const UpdateProfile = () => {
 
         {/* Image Upload */}
         <div>
-          <label className="label">Upload New Photo</label>
+          <label className="label text-black">Upload New Photo</label>
           <input
             type="file"
             accept="image/*"

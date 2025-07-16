@@ -113,7 +113,7 @@ const MyEnrollClass = () => {
             )}
             <div className="card-body flex flex-col justify-between">
               <h2 className="card-title">{cls.title}</h2>
-              <p className="text-gray-600 mb-4">
+              <p className="mb-4">
                 <strong>Teacher:</strong> {cls.name}
               </p>
               <button

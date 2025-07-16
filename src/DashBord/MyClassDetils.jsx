@@ -123,7 +123,7 @@ const MyClassDetails = () => {
 
       {/* Class Progress */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-4 text-gray-800">📊 Class Progress</h2>
+        <h2 className="text-xl font-semibold mb-4 ">📊 Class Progress</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <div className="p-4 border rounded shadow bg-white">
             <h3 className="text-gray-700 font-medium">Total Enrollment</h3>
@@ -143,7 +143,7 @@ const MyClassDetails = () => {
       {/* Assignment Cards */}
       <section className="mb-8">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold text-gray-800">📚 Assignments</h2>
+          <h2 className="text-xl font-semibold ">📚 Assignments</h2>
           <button
             onClick={openModal}
             className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
@@ -153,13 +153,13 @@ const MyClassDetails = () => {
         </div>
 
         {assignments.length === 0 ? (
-          <p className="text-gray-500">No assignments available yet.</p>
+          <p className="">No assignments available yet.</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {assignments.map((a) => (
               <div key={a._id} className="border rounded shadow p-4 bg-white">
                 <h3 className="text-lg font-semibold text-gray-800 mb-1">{a.title}</h3>
-                <p className="text-sm text-gray-600 mb-2">
+                <p className="text-sm mb-2">
                   📅 Deadline:{" "}
                   <span className="font-medium">{new Date(a.deadline).toLocaleDateString()}</span>
                 </p>
@@ -171,7 +171,7 @@ const MyClassDetails = () => {
                   />
                 )}
                 {a.description && (
-                  <p className="text-sm text-gray-600 mb-2">{a.description}</p>
+                  <p className="text-sm  mb-2">{a.description}</p>
                 )}
                 <p className="text-sm font-medium text-blue-600">
                   📤 Submissions: {a.submissionCount}
@@ -193,21 +193,22 @@ const MyClassDetails = () => {
             >
               &times;
             </button>
-            <h3 className="text-xl font-semibold mb-4 text-center">Add New Assignment</h3>
+            <h3 className="text-xl font-semibold mb-4 text-black text-center">Add New Assignment</h3>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" encType="multipart/form-data">
               <div>
-                <label className="block mb-1 font-medium">Assignment Title *</label>
+                <label className="block mb-1 font-medium text-black">Assignment Title *</label>
                 <input
                   type="text"
                   {...register("title", { required: "Title is required" })}
-                  className="w-full border rounded px-3 py-2"
+                  className="w-full border text-black rounded px-3 py-2"
+                placeholder="Title"
                 />
                 {errors.title && <p className="text-sm text-red-600">{errors.title.message}</p>}
               </div>
 
               <div>
-                <label className="block mb-1 font-medium">Deadline *</label>
+                <label className="block mb-1 text-black font-medium">Deadline *</label>
                 <input
                   type="date"
                   {...register("deadline", {
@@ -219,27 +220,28 @@ const MyClassDetails = () => {
                       return selected >= today || "Deadline can't be in the past";
                     },
                   })}
-                  className="w-full border rounded px-3 py-2"
+                  className="w-full text-black border rounded px-3 py-2"
                 />
                 {errors.deadline && <p className="text-sm text-red-600">{errors.deadline.message}</p>}
               </div>
 
               <div>
-                <label className="block mb-1 font-medium">Description</label>
+                <label className="block mb-1 text-black font-medium">Description</label>
                 <textarea
                   {...register("description")}
                   rows={3}
-                  className="w-full border rounded px-3 py-2"
+                  placeholder="Description"
+                  className="w-full text-black border rounded px-3 py-2"
                 ></textarea>
               </div>
 
               <div>
-                <label className="block mb-1 font-medium">Assignment Image *</label>
+                <label className="block text-black mb-1 font-medium">Assignment Image *</label>
                 <input
                   type="file"
                   accept="image/*"
                   {...register("image", { required: "Image is required" })}
-                  className="w-full border rounded px-3 py-2"
+                  className="w-full text-black border rounded px-3 py-2"
                 />
                 {errors.image && <p className="text-sm text-red-600">{errors.image.message}</p>}
               </div>

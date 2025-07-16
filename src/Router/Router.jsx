@@ -22,6 +22,7 @@ import Payment from "../Page/Payment";
 import MyEnrollClass from "../DashBord/MyEnrollClass";
 import MyEnrollClassDetails from "../DashBord/MyEnrollClassDetails";
 import MakeUsertoAdmin from "../DashBord/MakeUsertoAdmin";
+import AddEventForm from "../DashBord/AddEventForm";
 
 export const router = createBrowserRouter([
   {
@@ -137,6 +138,10 @@ export const router = createBrowserRouter([
         path: "usertoadmin",
         Component: MakeUsertoAdmin,
       },
+      {
+        path: 'addevent',
+        Component: AddEventForm
+      }
       
     ],
   },

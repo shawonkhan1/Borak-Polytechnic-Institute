@@ -30,7 +30,7 @@ const TopEnrolledClasses = () => {
 
         const sorted = classWithEnrollment
           .sort((a, b) => b.enrollmentCount - a.enrollmentCount)
-          .slice(0, 6); // সর্বোচ্চ ৬টা
+          .slice(0, 6);
 
         setTopClasses(sorted);
       } catch (err) {
@@ -44,7 +44,7 @@ const TopEnrolledClasses = () => {
   }, []);
 
   if (loading) return <p className="text-center mt-10">Loading top classes...</p>;
-
+  if (topClasses.length === 0) return null;
   return (
     <div className="max-w-7xl mx-auto px-4 py-10">
       <h2 className="text-3xl font-bold text-center mb-6 text-green-700">

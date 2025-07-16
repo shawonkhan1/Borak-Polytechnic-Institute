@@ -13,7 +13,8 @@ const Revew = () => {
       .then((res) => setReviews(res.data))
       .catch((err) => console.error("Failed to load reviews", err));
   }, [axiosSecure]);
-
+  
+if (reviews.length === 0) return null;
   return (
     <div className="bg-base-200 py-10 px-4">
       <h2 className="text-center text-3xl font-bold text-primary mb-6">
@@ -31,12 +32,13 @@ const Revew = () => {
             className="bg-white shadow-md border border-gray-200 rounded-lg px-6 py-4 mx-3 min-w-[320px] flex items-start gap-4"
           >
             <img
-              src={review.photoURL || "https://via.placeholder.com/60"}
+              src={review.photo|| "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="}
+
               alt={review.name || "User Photo"}
               className="w-14 h-14 rounded-full object-cover border-2 border-primary"
             />
             <div>
-              <h3 className="text-lg font-bold text-secondary mb-1">
+              <h3 className="text-lg text-black font-bold  mb-1">
                 {review.name || "Anonymous"}
               </h3>
               <div className="mb-2">

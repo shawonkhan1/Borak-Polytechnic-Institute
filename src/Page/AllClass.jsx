@@ -92,8 +92,8 @@ const AllClass = () => {
                   className="w-full h-40 object-cover rounded mb-4"
                 />
                 <h2 className="text-xl font-semibold mb-1">{cls.title}</h2>
-                <p className="text-gray-600 mb-2">By: {cls.name}</p>
-                <p className="text-gray-700 mb-2 line-clamp-2">
+                <p className=" mb-2">By: {cls.name}</p>
+                <p className=" mb-2 line-clamp-2">
                   {cls.description || "No description provided."}
                 </p>
                 <p className="font-bold mb-2">Price: ৳{cls.price}</p>
@@ -115,7 +115,7 @@ const AllClass = () => {
             <button
               onClick={handlePrev}
               disabled={currentPage === 1}
-              className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 disabled:opacity-50"
+              className="px-4 py-2 text-black rounded bg-gray-300 hover:bg-gray-400 disabled:opacity-50"
             >
               Previous
             </button>
@@ -125,7 +125,7 @@ const AllClass = () => {
             <button
               onClick={handleNext}
               disabled={currentPage === totalPages}
-              className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 disabled:opacity-50"
+              className="px-4 py-2 rounded bg-gray-300 text-black hover:bg-gray-400 disabled:opacity-50"
             >
               Next
             </button>

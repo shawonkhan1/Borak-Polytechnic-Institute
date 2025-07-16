@@ -53,7 +53,7 @@ const MakeUserToAdmin = () => {
     }
   };
 
-  // সার্চ ফিল্টার করে ইমেইলের উপর ভিত্তি করে
+
   const filteredUsers = users.filter((user) =>
     user.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -82,7 +82,7 @@ const MakeUserToAdmin = () => {
       <div className="overflow-x-auto">
         <table className="min-w-[300px] md:min-w-full border text-sm md:text-base border-gray-300">
           <thead>
-            <tr className="bg-gray-200">
+            <tr className="">
               <th className="border px-2 py-2 md:px-4 md:py-2">Name</th>
               <th className="border px-2 py-2 md:px-4 md:py-2">Email</th>
               <th className="border px-2 py-2 md:px-4 md:py-2">Role</th>

@@ -129,7 +129,7 @@ const TeacherRequestsTable = () => {
           <div className="overflow-x-auto">
             <table className="w-full border text-sm md:text-base">
               <thead>
-                <tr className="bg-gray-100">
+                <tr className="">
                   <th className="border px-4 py-2">Name</th>
                   <th className="border px-4 py-2">Email</th>
                   <th className="border px-4 py-2">Title</th>
@@ -141,7 +141,7 @@ const TeacherRequestsTable = () => {
               </thead>
               <tbody>
                 {requests.map((req) => (
-                  <tr key={req._id} className="text-center border-t">
+                  <tr key={req._id} className="text-center border-t ">
                     <td className="border px-4 py-2">{req.name}</td>
                     <td className="border px-4 py-2">{req.email}</td>
                     <td className="border px-4 py-2">{req.title}</td>
@@ -187,7 +187,7 @@ const TeacherRequestsTable = () => {
             <button
               onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
               disabled={currentPage === 1}
-              className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+              className="px-4 py-2 text-black rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
             >
               Previous
             </button>
@@ -199,7 +199,7 @@ const TeacherRequestsTable = () => {
                 setCurrentPage((prev) => Math.min(prev + 1, totalPages))
               }
               disabled={currentPage === totalPages}
-              className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+              className="px-4 py-2 rounded text-black bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
             >
               Next
             </button>
@@ -217,25 +217,25 @@ const TeacherRequestsTable = () => {
             >
               ✕
             </button>
-            <h3 className="text-xl font-bold mb-4 text-center">
+            <h3 className="text-xl text-black font-bold mb-4 text-center">
               Request Details
             </h3>
-            <p>
+            <p className="text-black">
               <strong>Name:</strong> {selectedRequest.name}
             </p>
-            <p>
+            <p className="text-black">
               <strong>Email:</strong> {selectedRequest.email}
             </p>
-            <p>
+            <p className="text-black">
               <strong>Title:</strong> {selectedRequest.title}
             </p>
-            <p>
+            <p className="text-black">
               <strong>Category:</strong> {selectedRequest.category}
             </p>
-            <p>
+            <p className="text-black">
               <strong>Experience:</strong> {selectedRequest.experience}
             </p>
-            <p>
+            <p className="text-black">
               <strong>Status:</strong> {selectedRequest.status}
             </p>
           </div>
