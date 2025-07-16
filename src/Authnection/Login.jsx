@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 import GoogleLoginButton from "./GoogleLoginButton ";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const { Login } = useContext(AuthContext);
@@ -23,7 +24,7 @@ console.log(location.state);
       const user = userCredential.user;
 
       console.log("Login Success!");
-
+        toast.success("Account Login successfully!");
 
       
       await axios.post("http://localhost:5000/users", {

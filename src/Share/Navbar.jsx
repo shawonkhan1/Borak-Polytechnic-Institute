@@ -3,6 +3,8 @@ import { FaSun, FaMoon, FaBars, FaTimes } from "react-icons/fa";
 import { Link } from "react-router"; // react-router-dom এ পরিবর্তন
 import NavLinks from "./Links"; // NavLinks: লিঙ্কগুলোর কম্পোনেন্ট
 import { AuthContext } from "../AuthProvider/AuthProvider";
+import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const { user, Logout } = useContext(AuthContext);
@@ -118,6 +120,7 @@ const Navbar = () => {
                     className="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100 hover:text-black"
                     onClick={() => {
                       setDropdownOpen(false);
+                       toast.success("Account Logout successfully!");
                       Logout();
                     }}
                   >
@@ -148,7 +151,7 @@ const Navbar = () => {
         <div className="md:hidden absolute top-full left-0 w-full bg-base-100 shadow-md border-t border-gray-200 z-40">
           <div className="flex flex-col space-y-1 p-4">
             {menuLinks}
-         
+
             {!user && (
               <Link
                 to="/register"

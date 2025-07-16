@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router"; // ✅ correct im
 import axios from "axios";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 import GoogleLoginButton from "./GoogleLoginButton ";
+import { toast } from "react-toastify";
  // ✅ fixed path
 // ✅ optional: use toast if needed
 
@@ -58,6 +59,7 @@ const onSubmit = async (data) => {
       await axios.post("http://localhost:5000/users", finalUserData);
 
       console.log("User Created and saved to DB:", finalUserData);
+        toast.success("Account created successfully!");
 
       navigate(`${location.state ? location.state : "/"}`);
       reset();

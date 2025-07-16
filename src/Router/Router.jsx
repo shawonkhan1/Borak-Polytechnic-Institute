@@ -40,15 +40,15 @@ export const router = createBrowserRouter([
       },
       {
         path: "/class/:id",
-        Component: AllClassDetails,
+        element: (
+          <PrivateRoute>
+            <AllClassDetails></AllClassDetails>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/payments/:id",
-        element: (
-          <PrivateRoute>
-            <Payment></Payment>
-          </PrivateRoute>
-        ),
+        element: <Payment></Payment>,
       },
       {
         path: "/register",
@@ -87,11 +87,15 @@ export const router = createBrowserRouter([
 
   {
     path: "dashboard",
-    element: <DashBordLayouts />,
+    element: (
+      <PrivateRoute>
+        <DashBordLayouts />
+      </PrivateRoute>
+    ),
     children: [
       {
         index: true,
-        element: <p>oi kire</p>,
+        element: <p>this is dashbord</p>,
       },
       {
         path: "teacher-requests",
@@ -99,7 +103,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "profile",
-        Component: DashProfile,
+        element: (
+          <PrivateRoute>
+            <DashProfile></DashProfile>
+          </PrivateRoute>
+        ),
       },
       {
         path: "my-class",
@@ -107,12 +115,13 @@ export const router = createBrowserRouter([
       },
       {
         path: "add-class",
-        Component: AddClass,
+        element: (
+          <PrivateRoute>
+            <AddClass></AddClass>
+          </PrivateRoute>
+        ),
       },
-      {
-        path: "my-enroll-class-details",
-        element: <p>my-enroll-class-details</p>,
-      },
+
       {
         path: "my-enroll-class",
         Component: MyEnrollClass,
@@ -139,10 +148,14 @@ export const router = createBrowserRouter([
         Component: MakeUsertoAdmin,
       },
       {
-        path: 'addevent',
-        Component: AddEventForm
-      }
-      
+        path: "addevent",
+        element: (
+          <PrivateRoute>
+            {" "}
+            <AddEventForm></AddEventForm>
+          </PrivateRoute>
+        ),
+      },
     ],
   },
 ]);
