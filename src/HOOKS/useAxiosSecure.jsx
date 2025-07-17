@@ -12,17 +12,17 @@ const useAxiosSecure = () => {
 
   const { user } = useContext(AuthContext);
  const token = user?.accessToken;
-console.log(token,"tokens dfasjklf");
+
 {!user && <Loading></Loading>}
   useEffect(() => {
 
     const requestInterceptor = axiosSecure.interceptors.request.use(
      async (config) => {
        
-        // const token = user?.getIdToken();
+
        
 
-        console.log(token, "this is tokens");
+
 
         if (token) {
           config.headers.Authorization = `Bearer ${token}`;

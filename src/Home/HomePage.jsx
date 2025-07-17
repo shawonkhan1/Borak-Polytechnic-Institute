@@ -10,6 +10,7 @@ import TopEnrolledClasses from "../Page/TopEnrolledClasses ";
 import Revew from "../Page/Revew";
 import Loading from "../Share/Loading";
 import BlogSection from "../Page/BlogSection";
+import GeminiChatBot from "../HOOKS/ChatBot/GeminiChatBot ";
 
 const HomePage = () => {
   const { user } = useContext(AuthContext);
@@ -19,7 +20,7 @@ const HomePage = () => {
       <Banner></Banner>
 
       <OurPatner></OurPatner>
-
+<GeminiChatBot></GeminiChatBot>
       <TopEnrolledClasses></TopEnrolledClasses>
 
       <Revew></Revew>
