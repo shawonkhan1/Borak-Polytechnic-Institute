@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "title": "Top 10 Tips to Learn Faster in 2025",
+    "description": "Discover practical techniques and tools that will supercharge your online learning journey.",
+    "image": "https://i.ibb.co/FqB25jv1/1631777774learn-quickly.webp",
+    "date": "July 10, 2025",
+    "author": "Admin"
+  },
+  {
+    "id": 2,
+    "title": "Why JavaScript Still Dominates Web Development",
+    "description": "Explore the power of JavaScript in modern web apps and frameworks.",
+    "image": "https://i.ibb.co/39S2NmZM/Uses-of-Java-Script-copy.webp",
+    "date": "July 3, 2025",
+    "author": "Shawon"
+  },
+  {
+    "id": 3,
+    "title": "How to Stay Consistent With Your Online Courses",
+    "description": "Learn mindset hacks and strategies to maintain momentum when learning online.",
+    "image": "https://i.ibb.co/q3mTD2Pk/1719838493053.png",
+    "date": "June 28, 2025",
+    "author": "Afia"
+  }
+]

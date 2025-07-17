@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { FaSun, FaMoon, FaBars, FaTimes } from "react-icons/fa";
-import { Link } from "react-router"; // react-router-dom এ পরিবর্তন
-import NavLinks from "./Links"; // NavLinks: লিঙ্কগুলোর কম্পোনেন্ট
+import { Link } from "react-router"; 
+import NavLinks from "./Links"; 
 import { AuthContext } from "../AuthProvider/AuthProvider";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
@@ -14,13 +14,13 @@ const Navbar = () => {
 
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
-  // থিম সেটিং
+
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  // ক্লিক আউটসাইডে dropdown বন্ধ করা
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -44,22 +44,22 @@ const Navbar = () => {
   );
 
   return (
-    <nav className="bg-base-100 shadow-md sticky top-0 z-50 px-4 py-3 flex items-center justify-between">
+    <nav className="bg-base-100 lg:pl-25 lg:pr-20 justify-between  shadow-md sticky top-0 z-50 px-4 py-3 flex items-center ">
       {/* Logo */}
       <div
-        className="text-2xl font-extrabold cursor-pointer text-blue-600 "
+        className="text-2xl  font-extrabold cursor-pointer text-blue-600 "
         onClick={() => (window.location.href = "/")}
       >
         Borak
       </div>
 
       {/* Desktop Nav Links */}
-      <div className="hidden md:flex items-center font-semibold text-lg space-x-6">
+      <div className="hidden md:flex  items-center font-semibold text-lg space-x-6">
         {menuLinks}
       </div>
 
       {/* Right Section: Theme toggle + User + Mobile menu button */}
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center  space-x-4">
         {/* Theme Toggle */}
         <button
           onClick={toggleTheme}

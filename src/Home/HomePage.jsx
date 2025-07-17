@@ -9,6 +9,7 @@ import SummarySection from "../Page/SummarySection ";
 import TopEnrolledClasses from "../Page/TopEnrolledClasses ";
 import Revew from "../Page/Revew";
 import Loading from "../Share/Loading";
+import BlogSection from "../Page/BlogSection";
 
 const HomePage = () => {
   const { user } = useContext(AuthContext);
@@ -16,28 +17,21 @@ const HomePage = () => {
   return (
     <div>
       <Banner></Banner>
-    
-      <OurPatner></OurPatner>
-      <TopEnrolledClasses></TopEnrolledClasses>
-      {/* <section>
-        Popular Class
-      </section> */}
 
-      {/* <section>
-        🔹 Feedback Section 
-      </section> */}
+      <OurPatner></OurPatner>
+
+      <TopEnrolledClasses></TopEnrolledClasses>
 
       <Revew></Revew>
 
-      {/* <section>
-        SummarySection 
-        total user
-        total class 
-      </section> */}
       <SummarySection></SummarySection>
 
       <InspirationTeacher></InspirationTeacher>
+     
       <Events></Events>
+      
+      <BlogSection></BlogSection>
+      
       <Faq></Faq>
     </div>
   );

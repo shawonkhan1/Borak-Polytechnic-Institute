@@ -13,6 +13,7 @@ const useAxiosSecure = () => {
   useEffect(() => {
     const token = user?.accessToken;
 
+
     const requestInterceptor = axiosSecure.interceptors.request.use(
       (config) => {
         if (token) {

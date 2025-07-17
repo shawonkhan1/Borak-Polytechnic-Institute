@@ -13,7 +13,7 @@ const RequstApproveClass = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  const limit = 6; 
+  const limit = 10; 
 
   const fetchPendingClasses = async (page = 1) => {
     setLoading(true);

@@ -8,7 +8,7 @@ const PaymentHistory = () => {
   const [error, setError] = useState("");
   const [page, setPage] = useState(1); // 
   const [totalPages, setTotalPages] = useState(1); 
-  const limit = 6; 
+  const limit = 10; 
 
   const axiosSecure = useAxiosSecure();
 

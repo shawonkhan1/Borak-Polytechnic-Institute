@@ -11,7 +11,7 @@ const MakeUserToAdmin = () => {
 
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+  const itemsPerPage = 10;
 
   const axiosSecure = useAxiosSecure();
 
