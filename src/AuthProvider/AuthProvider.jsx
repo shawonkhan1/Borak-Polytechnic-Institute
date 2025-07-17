@@ -80,7 +80,7 @@ const AuthProvider = ({ children }) => {
   };
 
   // onAuthStateChanged just one time run and save user data
-  useEffect(() => {
+ useEffect(() => {
     const unScribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       setLoading(false);

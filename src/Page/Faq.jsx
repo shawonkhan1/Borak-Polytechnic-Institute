@@ -35,19 +35,19 @@ const Faq = () => {
   };
 
   return (
-    <section className="max-w-4xl mx-auto p-6 bg-white rounded-2xl shadow mt-10">
+    <section className="max-w-4xl mx-auto p-6rounded-2xl  mt-10">
       <h2 className="text-4xl font-bold text-center mb-8 text-blue-600">
         Frequently Asked Questions
       </h2>
 
       <div className="space-y-4">
         {faqData.map((item, index) => (
-          <div key={index} className="border border-gray-300 rounded-lg overflow-hidden text-black">
+          <div key={index} className="border border-gray-300 rounded-lg overflow-hidden ">
             <button
               className="w-full text-left px-6 py-4 flex justify-between items-center focus:outline-none"
               onClick={() => toggleIndex(index)}
             >
-              <span className="text-lg font-medium text-black">{item.question}</span>
+              <span className="text-lg font-medium ">{item.question}</span>
               <svg
                 className={`w-6 h-6 transform transition-transform duration-300 ${
                   activeIndex === index ? "rotate-180" : ""
@@ -63,7 +63,7 @@ const Faq = () => {
             </button>
 
             {activeIndex === index && (
-              <div className="px-6 py-4 border-t border-gray-300 text-gray-700 bg-gray-50">
+              <div className="px-6 py-4 border-t border-gray-300 ">
                 {item.answer}
               </div>
             )}

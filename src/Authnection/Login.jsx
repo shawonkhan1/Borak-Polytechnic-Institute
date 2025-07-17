@@ -3,14 +3,17 @@ import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 import GoogleLoginButton from "./GoogleLoginButton ";
-import axios from "axios";
 import { toast } from "react-toastify";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const Login = () => {
   const { Login } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
-console.log(location.state);
+  const axiosSecure = useAxiosSecure();
+
+  console.log(location.state);
+
   const {
     register,
     handleSubmit,
@@ -19,17 +22,15 @@ console.log(location.state);
 
   const onSubmit = async (data) => {
     try {
-      
       const userCredential = await Login(data.email, data.password);
       const user = userCredential.user;
 
       console.log("Login Success!");
-        toast.success("Account Login successfully!");
+      toast.success("Account Login successfully!");
 
-      
-      await axios.post("http://localhost:5000/users", {
+      await axiosSecure.post("/users", {
         email: user.email,
-        name: user.displayName || "userName", 
+        name: user.displayName || "userName",
         photoURL: user.photoURL || "",
       });
 

@@ -13,10 +13,10 @@ const AllClass = () => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [searchQuery, setSearchQuery] = useState(""); // 🔍 search state
+  const [searchQuery, setSearchQuery] = useState(""); //  search state
 
   const limit = 6;
-
+  console.log(classes,"this is classes");
   const fetchClasses = async (page = 1) => {
     setLoading(true);
     try {
@@ -57,7 +57,7 @@ const AllClass = () => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
 
-  // 🔍 Filter classes by searchQuery (title match)
+  // Filter classes by searchQuery (title match)
   const filteredClasses = classes.filter((cls) =>
     cls.title.toLowerCase().includes(searchQuery.toLowerCase())
   );

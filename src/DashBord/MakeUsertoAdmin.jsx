@@ -107,7 +107,7 @@ const MakeUserToAdmin = () => {
 
       {/* User Table */}
       <div className="overflow-x-auto">
-        <table className="min-w-[300px] md:min-w-full border text-sm md:text-base border-gray-300">
+        <table className="min-w-[300px] md:min-w-full border text-sm md:text-base ">
           <thead>
             <tr>
               <th className="border px-2 py-2 md:px-4 md:py-2">Name</th>
@@ -125,7 +125,7 @@ const MakeUserToAdmin = () => {
               </tr>
             ) : (
               paginatedUsers.map((user) => (
-                <tr key={user.email} className="hover:bg-gray-100">
+                <tr key={user.email} className="">
                   <td className="border px-2 py-1 md:px-4 md:py-2">
                     {user.name || "-"}
                   </td>

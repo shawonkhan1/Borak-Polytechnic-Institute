@@ -121,11 +121,11 @@ const RequstApproveClass = () => {
           <table className="w-full table-auto border-collapse border border-gray-300">
             <thead>
               <tr className="bg-gray-200">
-                <th className="border border-gray-300 px-4 py-2">Title</th>
-                <th className="border border-gray-300 px-4 py-2">Teacher Name</th>
-                <th className="border border-gray-300 px-4 py-2">Price</th>
-                <th className="border border-gray-300 px-4 py-2">Status</th>
-                <th className="border border-gray-300 px-4 py-2">Actions</th>
+                <th className="border border-gray-300 text-black px-4 py-2">Title</th>
+                <th className="border text-black border-gray-300 px-4 py-2">Teacher Name</th>
+                <th className="border border-gray-300 text-black px-4 py-2">Price</th>
+                <th className="border border-gray-300 text-black px-4 py-2">Status</th>
+                <th className="border border-gray-300 text-black px-4 py-2">Actions</th>
               </tr>
             </thead>
             <tbody>

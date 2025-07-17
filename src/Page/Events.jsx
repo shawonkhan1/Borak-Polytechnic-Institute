@@ -37,7 +37,7 @@ const Events = () => {
   if (events.length === 0) return "";
 
   return (
-    <section className="py-16 bg-white rounded-2xl">
+    <section className="py-16  rounded-2xl">
       <div className="max-w-full mx-auto px-6">
         <h2 className="text-4xl font-extrabold text-center text-blue-600 mb-12">
           Upcoming Events

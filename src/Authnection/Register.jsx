@@ -1,17 +1,17 @@
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useLocation, useNavigate } from "react-router"; // ✅ correct import
-import axios from "axios";
+import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 import GoogleLoginButton from "./GoogleLoginButton ";
 import { toast } from "react-toastify";
- // ✅ fixed path
-// ✅ optional: use toast if needed
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const Register = () => {
   const { createUser, updateUserProfiles } = useContext(AuthContext);
-     const navigate = useNavigate();
+  const navigate = useNavigate();
   const location = useLocation();
+  const axiosSecure = useAxiosSecure();
+
   const {
     register,
     handleSubmit,
@@ -30,48 +30,46 @@ const Register = () => {
     }
   };
 
-const onSubmit = async (data) => {
-  try {
-    const imageFile = data.image[0];
-    const formData = new FormData();
-    formData.append("image", imageFile);
+  const onSubmit = async (data) => {
+    try {
+      const imageFile = data.image[0];
+      const formData = new FormData();
+      formData.append("image", imageFile);
 
-    const imgbbAPIKey = import.meta.env.VITE_IMGBB_API_KEY;
+      const imgbbAPIKey = import.meta.env.VITE_IMGBB_API_KEY;
 
-    const response = await axios.post(
-      `https://api.imgbb.com/1/upload?key=${imgbbAPIKey}`,
-      formData
-    );
+      const response = await axiosSecure.post(
+        `https://api.imgbb.com/1/upload?key=${imgbbAPIKey}`,
+        formData
+      );
 
-    if (response.data.success) {
-      const imageUrl = response.data.data.url;
+      if (response.data.success) {
+        const imageUrl = response.data.data.url;
 
-      // ফায়ারবেসে ইউজার তৈরি করো
-      await createUser(data.email, data.password);
-      await updateUserProfiles(data.name, imageUrl);
+        await createUser(data.email, data.password);
+        await updateUserProfiles(data.name, imageUrl);
 
-      // ব্যাকএন্ডে ইউজার ডেটা POST করো
-      const finalUserData = {
-        name: data.name,
-        email: data.email,
-        photoURL: imageUrl,
-      };
-      await axios.post("http://localhost:5000/users", finalUserData);
+        const finalUserData = {
+          name: data.name,
+          email: data.email,
+          photoURL: imageUrl,
+        };
 
-      console.log("User Created and saved to DB:", finalUserData);
+        await axiosSecure.post("/users", finalUserData);
+
+        console.log("User Created and saved to DB:", finalUserData);
         toast.success("Account created successfully!");
 
-      navigate(`${location.state ? location.state : "/"}`);
-      reset();
-      setPreview(null);
-    } else {
-      console.error("Image upload failed");
+        navigate(`${location.state ? location.state : "/"}`);
+        reset();
+        setPreview(null);
+      } else {
+        console.error("Image upload failed");
+      }
+    } catch (error) {
+      console.error("Error during registration:", error);
     }
-  } catch (error) {
-    console.error("Error during registration:", error);
-  }
-};
-
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-base-200 px-4">
@@ -80,7 +78,6 @@ const onSubmit = async (data) => {
           Create Account
         </h2>
 
-        {/* ✅ Image Preview */}
         {preview && (
           <div className="flex justify-center mb-4">
             <img
@@ -167,7 +164,7 @@ const onSubmit = async (data) => {
               {...register("image", {
                 required: "Image is required",
               })}
-              onChange={handleImageChange} // ✅ handled properly
+              onChange={handleImageChange}
             />
             {errors.image && (
               <p className="text-red-500 text-sm mt-1">
@@ -188,13 +185,10 @@ const onSubmit = async (data) => {
           </button>
         </form>
 
-        {/* Divider */}
         <div className="divider">OR</div>
 
-        {/* Google Login */}
         <GoogleLoginButton />
 
-        {/* Bottom Link */}
         <div className="flex justify-center gap-2 mt-4 text-sm">
           Already have an account?{" "}
           <Link to="/login" className="text-blue-600 hover:underline">

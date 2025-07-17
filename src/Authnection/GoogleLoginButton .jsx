@@ -1,21 +1,21 @@
 import React, { useContext } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import { FcGoogle } from "react-icons/fc";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 import { useLocation, useNavigate } from "react-router";
 import Loading from "../Share/Loading";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const GoogleLoginButton = () => {
   const { googleLogin } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
-
   const queryClient = useQueryClient();
+  const axiosSecure = useAxiosSecure();
 
-  // POST function
+  // POST function with axiosSecure
   const postUser = async (user) => {
-    const res = await axios.post("http://localhost:5000/users", {
+    const res = await axiosSecure.post("/users", {
       email: user.email,
       name: user.displayName || "",
       photoURL: user.photoURL || "",
@@ -51,7 +51,7 @@ const GoogleLoginButton = () => {
       className="btn btn-outline w-full flex items-center justify-center gap-2 mt-4"
     >
       <FcGoogle className="text-2xl" />
-      {mutation.isLoading ? <Loading></Loading> : "Continue with Google"}
+      {mutation.isLoading ? <Loading /> : "Continue with Google"}
     </button>
   );
 };

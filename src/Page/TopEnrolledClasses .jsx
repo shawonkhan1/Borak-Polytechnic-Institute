@@ -15,7 +15,9 @@ const TopEnrolledClasses = () => {
       setLoading(true);
       try {
         const res = await axiosSecure.get("/classes?status=accepted");
-        const classes = res.data;
+        const classes = res.data.classes;
+      console.log("Response data:", res.data);
+
 
         const classWithEnrollment = await Promise.all(
           classes.map(async (cls) => {
