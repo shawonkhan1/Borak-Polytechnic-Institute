@@ -20,7 +20,9 @@ const HomePage = () => {
       <Banner></Banner>
 
       <OurPatner></OurPatner>
-<GeminiChatBot></GeminiChatBot>
+
+       {user && <GeminiChatBot />}
+       
       <TopEnrolledClasses></TopEnrolledClasses>
 
       <Revew></Revew>
@@ -28,11 +30,11 @@ const HomePage = () => {
       <SummarySection></SummarySection>
 
       <InspirationTeacher></InspirationTeacher>
-     
+
       <Events></Events>
-      
+
       <BlogSection></BlogSection>
-      
+
       <Faq></Faq>
     </div>
   );
