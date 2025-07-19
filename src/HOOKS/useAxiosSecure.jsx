@@ -13,7 +13,7 @@ const useAxiosSecure = () => {
   const { user } = useContext(AuthContext);
  const token = user?.accessToken;
 
-{!user && <Loading></Loading>}
+console.log(token,"this is token bro");
   useEffect(() => {
 
     const requestInterceptor = axiosSecure.interceptors.request.use(

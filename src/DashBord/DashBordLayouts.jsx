@@ -234,7 +234,7 @@ const DashBordLayouts = () => {
           <button
             onClick={handleLogout}
             className="flex items-center gap-3 px-4 py-3 rounded-md font-semibold mt-6 transition-colors duration-200
-          text-red-600 hover:bg-red-100 dark:text-red-400 dark:hover:bg-red-700"
+          text-red-600 hover:bg-blue-300 hover:text-black"
           >
             <FaSignOutAlt size={20} />
             <span>Logout</span>

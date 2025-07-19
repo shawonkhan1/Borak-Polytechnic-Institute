@@ -18,11 +18,11 @@ const HomePage = () => {
   return (
     <div>
       <Banner></Banner>
-
+   
       <OurPatner></OurPatner>
 
        {user && <GeminiChatBot />}
-       
+
       <TopEnrolledClasses></TopEnrolledClasses>
 
       <Revew></Revew>

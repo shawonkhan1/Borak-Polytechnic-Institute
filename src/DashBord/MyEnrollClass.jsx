@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
-import useAxiosSecure from "../hooks/useAxiosSecure";
+
 import { AuthContext } from "../AuthProvider/AuthProvider";
 import { useNavigate } from "react-router";
 import Loading from "../Share/Loading";
+import useAxiosSecure from "../HOOKS/useAxiosSecure";
 
 const MyEnrollClass = () => {
   const { user } = useContext(AuthContext);

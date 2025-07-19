@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 
-const API_KEY = "AIzaSyClqinhEs_Ek4N8GIXbNCE18IRK_8k0dRA";
 
 
+const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 
 
 const GeminiChatBot = () => {
@@ -86,7 +86,7 @@ const GeminiChatBot = () => {
       {visible && (
         <div className="fixed bottom-20 right-5 max-w-lg w-[350px] h-[60vh] bg-white rounded-md shadow-md border border-gray-300 flex flex-col z-50">
           <header className="px-6 py-4 border-b border-gray-200 font-semibold text-xl text-gray-800 select-none">
-            Gemini ChatBot
+            Borak ChatBot
           </header>
 
           <main className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50">
@@ -122,7 +122,7 @@ const GeminiChatBot = () => {
             <div ref={messagesEndRef} />
           </main>
 
-          <footer className="px-4 py-3 bg-white border-t border-gray-200 flex gap-2 rounded-b-md">
+          <footer className="px-4 py-3 bg-white border-t text-black border-gray-200 flex gap-2 rounded-b-md">
             <input
               type="text"
               value={input}
