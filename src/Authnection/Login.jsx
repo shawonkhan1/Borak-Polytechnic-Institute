@@ -37,6 +37,7 @@ const Login = () => {
       navigate(`${location?.state ? location?.state : "/"}`);
     } catch (error) {
       console.error("Login Failed:", error.message);
+      toast.error(error.message)
     }
   };
 

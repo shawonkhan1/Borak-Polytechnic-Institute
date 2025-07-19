@@ -65,9 +65,11 @@ const Register = () => {
         setPreview(null);
       } else {
         console.error("Image upload failed");
+        toast.error("img upload faild")
       }
     } catch (error) {
       console.error("Error during registration:", error);
+      toast.error(error.message)
     }
   };
 
