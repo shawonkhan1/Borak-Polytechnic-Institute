@@ -126,7 +126,12 @@ const MakeUserToAdmin = () => {
             ) : (
               paginatedUsers.map((user) => (
                 <tr key={user.email} className="">
-                  <td className="border px-2 py-1 md:px-4 md:py-2">
+                  <td className="border px-2 py-1 md:px-4 md:py-2 flex items-center gap-2">
+                    <img
+                      src={user.photoURL || ""}
+                      alt={user.name || "User"}
+                      className="w-8 h-8 rounded-full object-cover"
+                    />
                     {user.name || "-"}
                   </td>
                   <td className="border px-2 py-1 md:px-4 md:py-2">{user.email}</td>
