@@ -11,6 +11,7 @@ import Revew from "../Page/Revew";
 import Loading from "../Share/Loading";
 import BlogSection from "../Page/BlogSection";
 import GeminiChatBot from "../HOOKS/ChatBot/GeminiChatBot ";
+import SuccessStudent from "../Page/SuccessStudent";
 
 const HomePage = () => {
   const { user } = useContext(AuthContext);
@@ -34,6 +35,7 @@ const HomePage = () => {
       <Events></Events>
 
       <BlogSection></BlogSection>
+      <SuccessStudent></SuccessStudent>
 
       <Faq></Faq>
     </div>

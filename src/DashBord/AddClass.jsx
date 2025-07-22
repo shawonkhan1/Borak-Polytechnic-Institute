@@ -89,11 +89,11 @@ const AddClass = () => {
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         <div>
-          <label className="font-medium text-black">Title</label>
+          <label className="font-medium text-black">Subject Name</label>
           <input
             {...register("title", { required: true })}
             className="w-full border text-black p-2 rounded mt-1"
-            placeholder="Enter class title"
+            placeholder="Enter Subject Name"
           />
           {errors.title && (
             <span className="text-red-500">Title is required</span>

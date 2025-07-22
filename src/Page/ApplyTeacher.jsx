@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
@@ -19,6 +19,7 @@ const ApplyTeacher = () => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
+  
 
   const [formData, setFormData] = useState({
     name: user?.displayName || "",
@@ -28,8 +29,55 @@ const ApplyTeacher = () => {
     category: categories[0],
   });
 
+
+
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [role, setRole] = useState(null);
+  const [roleLoading, setRoleLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUserRole = async () => {
+      try {
+        const res = await axiosSecure.get("/users");
+        const currentUser = res.data.find((u) => u.email === user?.email);
+        setRole(currentUser?.role || "student");
+      } catch (error) {
+        console.error("Error fetching user role", error);
+      } finally {
+        setRoleLoading(false);
+      }
+    };
+
+    if (user?.email) {
+      fetchUserRole();
+    }
+  }, [user, axiosSecure]);
+
+ if (roleLoading) {
+    return <Loading></Loading>;
+  }
+ if (role === "teacher") {
+    return (
+      <div className="max-w-md mx-auto p-6 bg-white rounded-2xl shadow mt-10">
+        <h2 className="text-xl font-semibold text-center text-blue-600">
+          You are already a teacher.
+        </h2>
+      </div>
+    );
+  }
+
+  if (role === "admin") {
+    return (
+      <div className="max-w-md mx-auto p-6 bg-white rounded-2xl shadow mt-10">
+        <h2 className="text-xl font-semibold text-center text-blue-600">
+          You are already an admin.
+        </h2>
+      </div>
+    );
+  }
+
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;

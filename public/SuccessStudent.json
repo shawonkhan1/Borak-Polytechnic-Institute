@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Rahim Uddin",
+    "comment": "This course changed my life! I'm now earning through freelancing.",
+    "course": "Web Development",
+    "image": "https://i.ibb.co/SQmmSgN/student1.jpg"
+  },
+  {
+    "name": "Mariam Akter",
+    "comment": "The instructors were super helpful. I’ve landed a job at an IT company!",
+    "course": "Digital Marketing",
+    "image": "https://i.ibb.co/x21BprZ/student2.jpg"
+  },
+  {
+    "name": "Sabbir Hasan",
+    "comment": "This E-learning platform was perfect for me. I’m now a full-stack developer.",
+    "course": "Full Stack Development",
+    "image": "https://i.ibb.co/SDB2FqX/student3.jpg"
+  },
+  {
+    "name": "Nusrat Jahan",
+    "comment": "Learning here was the best decision I made. Now I mentor others too.",
+    "course": "Graphic Design",
+    "image": "https://i.ibb.co/k59sYTx/student4.jpg"
+  }
+]

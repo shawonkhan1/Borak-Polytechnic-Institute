@@ -39,7 +39,7 @@ const AllClass = () => {
       setEnrollmentsCount(counts);
     } catch (error) {
       console.error("Failed to fetch classes", error);
-      Swal.fire("Error", "Failed to load classes", "error");
+      // Swal.fire("Error", "Failed to load classes", "error");
     } finally {
       setLoading(false);
     }
@@ -74,7 +74,7 @@ const AllClass = () => {
   <div className="mb-8 flex justify-center">
     <input
       type="text"
-      placeholder="Search by title..."
+      placeholder="Search by Subject Name..."
       value={searchQuery}
       onChange={(e) => setSearchQuery(e.target.value)}
       className="input input-bordered w-full max-w-md px-4 py-2 text-sm sm:text-base"
