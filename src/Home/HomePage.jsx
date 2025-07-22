@@ -19,14 +19,12 @@ const HomePage = () => {
   return (
     <div>
       <Banner></Banner>
-   
+
       <OurPatner></OurPatner>
 
-       {user && <GeminiChatBot />}
+      {user && <GeminiChatBot />}
 
       <TopEnrolledClasses></TopEnrolledClasses>
-
-      <Revew></Revew>
 
       <SummarySection></SummarySection>
 
@@ -38,6 +36,7 @@ const HomePage = () => {
       <SuccessStudent></SuccessStudent>
 
       <Faq></Faq>
+      <Revew></Revew>
     </div>
   );
 };

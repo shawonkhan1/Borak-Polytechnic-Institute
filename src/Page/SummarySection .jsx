@@ -12,9 +12,10 @@ const SummarySection = () => {
   });
 
   useEffect(() => {
-    // ✅ Load total users
+    //  Load total users
     axiosSecure.get("/users")
       .then(res => {
+         console.log("Users response", res.data);
         const usersCount = Array.isArray(res.data) ? res.data.length : 0;
         setSummaryData(prev => ({ ...prev, users: usersCount }));
       })
@@ -22,7 +23,7 @@ const SummarySection = () => {
         console.error("Failed to fetch users:", err);
       });
 
-    // ✅ Load accepted classes only
+    //  Load accepted classes only
     axiosSecure.get("/classes?status=accepted")
       .then(res => {
         const acceptedClasses = res.data?.classes || [];
@@ -32,7 +33,7 @@ const SummarySection = () => {
         console.error("Failed to fetch classes:", err);
       });
 
-    // ✅ Load total enrollments from new route
+    // Load total enrollments from new route
     axiosSecure.get("/enrollments/count-all")
       .then(res => {
         const enrollmentsCount = res.data?.count || 0;

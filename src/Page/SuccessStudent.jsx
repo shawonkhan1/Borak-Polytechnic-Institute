@@ -25,7 +25,7 @@ const SuccessStudent = () => {
 
   return (
     <section className=" px-4 md:px-10">
-      <div className="max-w-7xl mx-auto text-center">
+      <div className="max-w-7xl mx-auto mt-5  text-center">
         <h2 className="text-4xl font-bold mb-10 text-blue-600">
           🎓 Student Success Stories
         </h2>
