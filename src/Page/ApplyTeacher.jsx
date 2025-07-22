@@ -19,7 +19,6 @@ const ApplyTeacher = () => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
-  
 
   const [formData, setFormData] = useState({
     name: user?.displayName || "",
@@ -28,8 +27,6 @@ const ApplyTeacher = () => {
     title: "",
     category: categories[0],
   });
-
-
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -54,30 +51,11 @@ const ApplyTeacher = () => {
     }
   }, [user, axiosSecure]);
 
- if (roleLoading) {
+  if (roleLoading) {
     return <Loading></Loading>;
   }
- if (role === "teacher") {
-    return (
-      <div className="max-w-md mx-auto p-6 bg-white rounded-2xl shadow mt-10">
-        <h2 className="text-xl font-semibold text-center text-blue-600">
-          You are already a teacher.
-        </h2>
-      </div>
-    );
-  }
 
-  if (role === "admin") {
-    return (
-      <div className="max-w-md mx-auto p-6 bg-white rounded-2xl shadow mt-10">
-        <h2 className="text-xl font-semibold text-center text-blue-600">
-          You are already an admin.
-        </h2>
-      </div>
-    );
-  }
-
-
+ 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -204,13 +182,23 @@ const ApplyTeacher = () => {
             </option>
           ))}
         </select>
-
+        {/* button */}
         <button
           type="submit"
-          disabled={loading}
-          className="w-full bg-blue-600 text-white py-3 rounded hover:bg-blue-700 transition"
+          disabled={loading || role === "admin" || role === "teacher"}
+          className={`w-full py-3 rounded transition ${
+            loading || role === "admin" || role === "teacher"
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-blue-600 hover:bg-blue-700 text-white"
+          }`}
         >
-          {loading ? <Loading></Loading> : "Submit for Review"}
+          {loading ? (
+            <Loading />
+          ) : role === "admin" || role === "teacher" ? (
+            "You are not allowed"
+          ) : (
+            "Submit for Review"
+          )}
         </button>
       </form>
 
