@@ -29,6 +29,7 @@ const AuthProvider = ({ children }) => {
 
   // LogOut user
   const Logout = () => {
+      localStorage.removeItem("access-token");
     return signOut(auth);
   };
 
@@ -84,6 +85,21 @@ const AuthProvider = ({ children }) => {
     const unScribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       setLoading(false);
+
+      if (currentUser) {
+      currentUser.getIdToken()
+        .then((token) => {
+          localStorage.setItem("access-token", token);
+        })
+        .catch((error) => {
+          console.error("Token fetch error:", error);
+        });
+    } else {
+     
+      localStorage.removeItem("access-token");
+    }
+
+
     });
     return () => {
       unScribe();
