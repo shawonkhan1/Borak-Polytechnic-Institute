@@ -2,9 +2,9 @@
 
 🔗 **Live Site:** [https://bejewelled-strudel-e37f3d.netlify.app/](https://bejewelled-strudel-e37f3d.netlify.app/)
 
-🔗 **Clint Side Github:** [https://github.com/Programming-Hero-Web-Course4/b11a12-client-side-shawonkhan1](https://github.com/Programming-Hero-Web-Course4/b11a12-client-side-shawonkhan1)
+🔗 **Clint Side Github:** [https://github.com/shawonkhan1/Borak-Polytechnic-Institute](https://github.com/shawonkhan1/Borak-Polytechnic-Institute)
 
-🔗 **Server Side Github:** [https://github.com/Programming-Hero-Web-Course4/b11a12-server-side-shawonkhan1](https://github.com/Programming-Hero-Web-Course4/b11a12-server-side-shawonkhan1)
+🔗 **Server Side Github:** [https://github.com/shawonkhan1/Borak-Polytechnic-Institute-Server](https://github.com/shawonkhan1/Borak-Polytechnic-Institute-Server)
 
 
 **Borak Polytech Institute** is a modern, responsive, and informative educational website built with React. It showcases departmental information, admission processes, and essential resources for students and visitors through an interactive and smooth user interface.
