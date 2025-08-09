@@ -11,6 +11,11 @@
 
 ---
 
+---
+Admin Email - zahid@gmail.com
+Admin Password - 123456
+---
+
 ## ✨ Features
 
 - 🏫 Modern Home Page with Banner, About, and Contact
@@ -94,6 +99,7 @@ Developed with ❤️ by **MD Shawon**
 
 
 ### Home Page  
-![Home Page](/public/Screenshot%202025-07-19%20214209.png)
+![Project Screenshot](/public/Screenshot%202025-07-19%20214209.png)
+
 
 
