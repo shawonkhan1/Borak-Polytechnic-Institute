@@ -100,7 +100,4 @@ Developed with ❤️ by **MD Shawon**
 
 
 ### Home Page  
-![Project Screenshot](./public/Screenshot%202025-07-19%20214209.png)
-
-
-
+![Project Screenshot](https://i.ibb.co/WNqhfg6y/Screenshot-2025-07-19-214209.png)
