@@ -28,6 +28,7 @@ import PaymentHistory from "../DashBord/PaymentHistory";
 import About_Us from "../Page/About_Us";
 import ContactUs from "../Page/ContactUs";
 import PaymentCharts from "../DashBord/PaymentCharts";
+import MyClassCharts from "../DashBord/MyClassCharts";
 
 export const router = createBrowserRouter([
   {
@@ -129,6 +130,10 @@ export const router = createBrowserRouter([
       {
         path: "my-class",
         Component: MyClass,
+      },
+      {
+        path: 'my-class-charts',
+        Component: MyClassCharts
       },
       {
         path: "add-class",

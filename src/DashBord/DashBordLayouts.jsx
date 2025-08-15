@@ -103,9 +103,9 @@ const DashBordLayouts = () => {
             icon: <FaMoneyCheckAlt size={20} />,
           },
           {
-            name: "Payment Charts", 
-            path: "paymentcharts", 
-            icon: <FaChartBar size={20} />, 
+            name: "Payment Charts",
+            path: "paymentcharts",
+            icon: <FaChartBar size={20} />,
           },
           {
             name: "Add Event",
@@ -131,6 +131,11 @@ const DashBordLayouts = () => {
             name: "My Class",
             path: "my-class",
             icon: <FaChalkboardTeacher size={20} />,
+          },
+          {
+            name: "Class Charts",
+            path: "my-class-charts",
+            icon: <FaMoneyCheckAlt size={20} />, 
           },
           {
             name: "Add Event",
