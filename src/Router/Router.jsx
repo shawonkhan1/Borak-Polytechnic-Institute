@@ -26,6 +26,7 @@ import AddEventForm from "../DashBord/AddEventForm";
 import ErrorPage from "../Share/ErrorPage";
 import PaymentHistory from "../DashBord/PaymentHistory";
 import About_Us from "../Page/About_Us";
+import ContactUs from "../Page/ContactUs";
 
 export const router = createBrowserRouter([
   {
@@ -44,6 +45,10 @@ export const router = createBrowserRouter([
       {
         path: '/about',
         Component: About_Us
+      },
+      {
+        path: '/contact',
+        Component: ContactUs
       },
       {
         path: "/class/:id",

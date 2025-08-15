@@ -11,6 +11,7 @@ const links = [
   { to: "/allclass", label: "All Classes" },
    ...(user ? [{ to: "/apply_Teacher", label: "Teach-on-BPI" }] : []),
   { to: "/about", label: "AboutUs" },
+   ...(user ? [{ to: "/contact", label: "ContactUs" }] : []),
 ];
 
 
