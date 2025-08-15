@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink } from "react-router";
+import { AuthContext } from "../AuthProvider/AuthProvider";
 
+
+
+const NavLinks = ({ onLinkClick }) => {
+    const { user } = useContext(AuthContext); 
 const links = [
   { to: "/", label: "Home" },
   { to: "/allclass", label: "All Classes" },
-  { to: "/apply_Teacher", label: "Teach-on-BPI" },
+   ...(user ? [{ to: "/apply_Teacher", label: "Teach-on-BPI" }] : []),
+  { to: "/about", label: "AboutUs" },
 ];
 
-const NavLinks = ({ onLinkClick }) => {
+
   return (
     <>
       {links.map(({ to, label }) => (
