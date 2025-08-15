@@ -29,6 +29,7 @@
     "react-rating": "^2.0.5",
     "react-router": "^7.6.3",
     "react-toastify": "^11.0.5",
+    "recharts": "^3.1.2",
     "stripe": "^18.3.0",
     "sweetalert2": "^11.22.2",
     "swiper": "^11.2.10",

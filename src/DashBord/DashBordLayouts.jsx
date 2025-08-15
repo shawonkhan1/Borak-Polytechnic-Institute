@@ -15,6 +15,7 @@ import {
   FaMoon,
   FaSun,
   FaMoneyCheckAlt,
+  FaChartBar,
 } from "react-icons/fa";
 
 import { AuthContext } from "../AuthProvider/AuthProvider";
@@ -74,10 +75,7 @@ const DashBordLayouts = () => {
     }
   };
 
-  if (loadingRole)
-    return (
-      <Loading></Loading>
-    );
+  if (loadingRole) return <Loading></Loading>;
 
   const links = [
     { name: "Home", path: "/", icon: <FaHome size={20} /> },
@@ -102,7 +100,12 @@ const DashBordLayouts = () => {
           {
             name: "Payment History",
             path: "paymentHistory",
-            icon: <FaMoneyCheckAlt size={20} />
+            icon: <FaMoneyCheckAlt size={20} />,
+          },
+          {
+            name: "Payment Charts", 
+            path: "paymentcharts", 
+            icon: <FaChartBar size={20} />, 
           },
           {
             name: "Add Event",
@@ -129,7 +132,7 @@ const DashBordLayouts = () => {
             path: "my-class",
             icon: <FaChalkboardTeacher size={20} />,
           },
-           {
+          {
             name: "Add Event",
             path: "addevent",
             icon: <FaCalendarPlus size={20} />,
@@ -159,7 +162,11 @@ const DashBordLayouts = () => {
   ];
 
   return (
-    <div className={`flex min-h-screen ${theme === "light" ? "bg-gray-50" : "bg-gray-800"}`}>
+    <div
+      className={`flex min-h-screen ${
+        theme === "light" ? "bg-gray-50" : "bg-gray-800"
+      }`}
+    >
       {/* Mobile Top Bar */}
       <div className="fixed top-0 left-0 right-0 bg-white shadow-md flex items-center justify-between px-4 py-3 md:hidden z-50">
         <div className="flex items-center gap-3">

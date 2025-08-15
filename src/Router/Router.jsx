@@ -27,6 +27,7 @@ import ErrorPage from "../Share/ErrorPage";
 import PaymentHistory from "../DashBord/PaymentHistory";
 import About_Us from "../Page/About_Us";
 import ContactUs from "../Page/ContactUs";
+import PaymentCharts from "../DashBord/PaymentCharts";
 
 export const router = createBrowserRouter([
   {
@@ -120,6 +121,10 @@ export const router = createBrowserRouter([
             <DashProfile></DashProfile>
           </PrivateRoute>
         ),
+      },
+      {
+        path: 'paymentcharts',
+        Component: PaymentCharts
       },
       {
         path: "my-class",
