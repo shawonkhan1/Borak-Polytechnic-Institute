@@ -1,7 +1,10 @@
+// ContactUs.jsx
 import React, { useContext, useRef, useState, useEffect } from "react";
 import emailjs from "emailjs-com";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 import { FaFacebookF, FaLinkedinIn, FaYoutube } from "react-icons/fa";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ContactUs = () => {
   const { user } = useContext(AuthContext);
@@ -40,7 +43,7 @@ const ContactUs = () => {
       .then(
         (result) => {
           console.log(result.text);
-          alert("Message sent successfully!");
+          toast.success("Thank you! We will get in touch with you very soon.");
           setFormData({
             user_name: user?.displayName || "",
             user_email: user?.email || "",
@@ -50,7 +53,9 @@ const ContactUs = () => {
         },
         (error) => {
           console.log(error.text);
-          alert("Failed to send message. Check your EmailJS settings.");
+          toast.error(
+            "Failed to send message. Check your EmailJS settings."
+          );
         }
       );
   };
@@ -135,19 +140,22 @@ const ContactUs = () => {
               </h3>
               <div className="flex gap-5 text-white">
                 <a
-                  href="https://www.facebook.com/MD1Shawon" target="_blank"
+                  href="https://www.facebook.com/MD1Shawon"
+                  target="_blank"
                   className="bg-blue-600 p-3 rounded-full hover:bg-blue-700 transition"
                 >
                   <FaFacebookF />
                 </a>
                 <a
-                  href="https://www.linkedin.com/login" target="_blank"
+                  href="https://www.linkedin.com/login"
+                  target="_blank"
                   className="bg-blue-700 p-3 rounded-full hover:bg-blue-800 transition"
                 >
                   <FaLinkedinIn />
                 </a>
                 <a
-                  href="https://youtu.be/zczxy4Ck7Ik?si=UhLjI8JpTSBgaUmZ" target="_blank"
+                  href="https://youtu.be/zczxy4Ck7Ik?si=UhLjI8JpTSBgaUmZ"
+                  target="_blank"
                   className="bg-red-600 p-3 rounded-full hover:bg-red-700 transition"
                 >
                   <FaYoutube />
@@ -157,6 +165,19 @@ const ContactUs = () => {
           </div>
         </div>
       </div>
+
+      {/* Toast Container */}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };
