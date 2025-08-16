@@ -58,7 +58,7 @@ const AllClassDetails = () => {
           {classDetails.name}
         </p>
         <p className="text-lg">
-          <strong className="text-blue-600">Price:</strong> ৳
+          <strong className="text-blue-600">Course Fees:</strong> ৳
           {classDetails.price}
         </p>
         <div>

@@ -6,14 +6,15 @@ import { useNavigate } from "react-router";
 import Loading from "../Share/Loading";
 
 const categories = [
-  "Web Development",
-  "Digital Marketing",
-  "Graphic Design",
-  "Data Science",
-  "Mobile Development",
+  "Math",
+  "English",
+  "Physics",
+  "Chemistry",
+  "Bangla",
+  "History",
 ];
 
-const experiences = ["Beginner", "Mid-level", "Experienced"];
+const experiences = ["Less than 1 year", "1–2 years", "3–5 years", "5–10 years", "10+ years"];
 
 const ApplyTeacher = () => {
   const navigate = useNavigate();
@@ -157,18 +158,18 @@ const ApplyTeacher = () => {
           ))}
         </select>
 
-        <label className="block mb-2 font-semibold text-black">Title</label>
+        <label className="block mb-2 font-semibold text-black">Subject Name</label>
         <input
           type="text"
           name="title"
           value={formData.title}
           onChange={handleChange}
           required
-          placeholder="E.g. Frontend Developer"
+          placeholder="E.g. Math"
           className="w-full text-black p-2 border border-gray-300 rounded mb-4"
         />
 
-        <label className="block mb-2 font-semibold text-black">Category</label>
+        <label className="block mb-2 font-semibold text-black">Subject Options:</label>
         <select
           name="category"
           value={formData.category}

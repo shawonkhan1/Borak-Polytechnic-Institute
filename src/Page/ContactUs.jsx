@@ -61,9 +61,9 @@ const ContactUs = () => {
   };
 
   return (
-    <div className="bg-gray-50 mt-10 rounded-2xl dark:bg-gray-900 py-16 px-4">
+    <div className="bg-gradient-to-r from-blue-50 to-blue-100 mt-10 rounded-2xl py-16 px-4">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-5xl font-bold text-center text-blue-600 mb-12">
+        <h1 className="text-3xl font-bold text-center text-blue-600 mb-12">
           Contact Us
         </h1>
         <div className="grid md:grid-cols-2 gap-12">
@@ -71,7 +71,7 @@ const ContactUs = () => {
           <form
             ref={form}
             onSubmit={sendEmail}
-            className="bg-white dark:bg-gray-800 shadow-xl rounded-xl p-8 space-y-4"
+            className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-8 space-y-4"
           >
             <input
               type="text"

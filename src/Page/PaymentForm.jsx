@@ -263,7 +263,7 @@ const PaymentForm = ({ id }) => {
         Instructor: {classData.name}
       </p>
       <p className="text-center text-black font-bold mb-4">
-        Amount: ৳{classData.price}
+        Course Fees: ৳{classData.price}
       </p>
 
       <form onSubmit={handleSubmit}>

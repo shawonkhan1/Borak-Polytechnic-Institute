@@ -119,7 +119,7 @@ const AddClass = () => {
         </div>
 
         <div>
-          <label className="font-medium text-black">Price</label>
+          <label className="font-medium text-black">Course Fees</label>
           <input
             type="number"
             step="0.01"
@@ -133,7 +133,7 @@ const AddClass = () => {
         </div>
 
         <div>
-          <label className="font-medium text-black">Upload Image</label>
+          <label className="font-medium text-black">Class Thumbnail</label>
           <input
             type="file"
             accept="image/*"

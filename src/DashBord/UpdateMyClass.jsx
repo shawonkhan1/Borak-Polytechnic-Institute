@@ -86,7 +86,7 @@ const UpdateMyClass = () => {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block mb-1 font-semibold" htmlFor="title">
-            Title <span className="text-red-500">*</span>
+            Subject Name <span className="text-red-500">*</span>
           </label>
           <input
             id="title"
@@ -101,7 +101,7 @@ const UpdateMyClass = () => {
 
         <div>
           <label className="block mb-1 font-semibold" htmlFor="price">
-            Price <span className="text-red-500">*</span>
+            Course Fees <span className="text-red-500">*</span>
           </label>
           <input
             id="price"
@@ -131,7 +131,7 @@ const UpdateMyClass = () => {
 
         <div>
           <label className="block mb-1 font-semibold" htmlFor="image">
-            Image URL <span className="text-red-500">*</span>
+            Class Thumbnail<span className="text-red-500">*</span>
           </label>
           <input
             id="image"

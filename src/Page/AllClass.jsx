@@ -127,13 +127,13 @@ const AllClass = () => {
                   {cls.title}
                 </h2>
                 <p className="text-gray-600 mb-2 text-sm">
-                  By: <span className="font-medium">{cls.name}</span>
+                  Instructor: <span className="font-medium">{cls.name}</span>
                 </p>
                 <p className="text-gray-600 mb-2 text-sm line-clamp-2">
                   {cls.description || "No description provided."}
                 </p>
                 <p className="text-blue-700 font-semibold mb-1">
-                  Price: ৳{cls.price}
+                  Course Fees: ৳{cls.price}
                 </p>
                 <p className="text-gray-700 mb-4 text-sm">
                   Total Enrolled: {enrollmentsCount[cls._id] || 0}
