@@ -19,9 +19,7 @@ const Banner = () => {
       .catch((err) => console.error("Failed to load slides:", err));
   }, []);
 
-  if (slides.length === 0) {
-    return <Loading></Loading>;
-  }
+  if (slides.length === 0) return <Loading />;
 
   return (
     <Swiper
@@ -39,23 +37,42 @@ const Banner = () => {
             className="relative h-full bg-cover bg-center rounded-2xl"
             style={{ backgroundImage: `url(${slide.image})` }}
           >
-            {/* Overlay with gradient */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70 flex flex-col items-center justify-center px-8 md:px-20">
-              <div className="max-w-4xl text-center space-y-6 flex-grow flex flex-col justify-center"></div>
+            {/* 👉 Overlay with gradient & bottom-left content */}
+            <div
+              className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-black/80
+                         flex flex-col justify-end items-start p-6 md:p-10 space-y-4 text-white"
+            >
+              <motion.h2
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7 }}
+                className="text-3xl md:text-5xl font-bold max-w-xl"
+              >
+                {slide.title}
+              </motion.h2>
 
-              {/* Button at the bottom center */}
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.2 }}
+                className="text-base md:text-lg text-gray-200 max-w-xl"
+              >
+                {slide.description}
+              </motion.p>
+
               <motion.div
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.6, delay: 0.9, ease: "easeOut" }}
-                className="mb-8" // margin bottom for some space
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.4 }}
               >
                 <Link to="/allclass">
                   <button
                     aria-label="Explore Rooms"
-                    className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-12 py-4 rounded-full shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-opacity-50"
+                    className="mt-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold
+                               px-8 py-3 rounded-full shadow-lg transition duration-300
+                               ease-in-out focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-opacity-50"
                   >
-                    Explore ALL Class
+                    Explore All Class
                   </button>
                 </Link>
               </motion.div>
