@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Marquee from "react-fast-marquee";
 import Loading from "../Share/Loading";
 
 const OurPartner = () => {
@@ -12,24 +13,36 @@ const OurPartner = () => {
   }, []);
 
   if (partners.length === 0) {
-    return <Loading></Loading>
+    return <Loading />;
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 p-25">
-      <h2 className="text-3xl font-bold text-center text-blue-600 mb-8">Our Partners</h2>
-     
-      <div className="grid  grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 items-center justify-center">
+    <div className="py-16 ">
+      <h2 className="text-2xl md:text-4xl font-extrabold text-center text-blue-600 mb-5">
+        Our Trusted Partners
+      </h2>
+      <p className="text-center mb-10 max-w-2xl mx-auto text-gray-600">
+        We proudly collaborate with these leading organizations to deliver the best services.
+      </p>
+
+      <Marquee
+        gradient={false}
+        speed={50}
+        pauseOnHover={true}
+      >
         {partners.map((partner) => (
-          <div key={partner.id} className="flex items-center justify-center h-50px">
+          <div
+            key={partner.id}
+            className="flex-shrink-0 flex items-center justify-center mx-8 bg-gray-50 rounded-lg p-4 shadow hover:shadow-xl transition duration-300"
+          >
             <img
               src={partner.logo}
               alt={partner.name}
-              className="w-24 h-auto object-contain grayscale hover:grayscale-0 transition duration-300"
+              className="h-16 w-auto object-contain transition duration-300"
             />
           </div>
         ))}
-      </div>
+      </Marquee>
     </div>
   );
 };
