@@ -21,7 +21,7 @@ const OurPartner = () => {
       <h2 className="text-2xl md:text-4xl font-extrabold text-center text-blue-600 mb-5">
         Our Trusted Partners
       </h2>
-      <p className="text-center mb-10 max-w-2xl mx-auto text-gray-600">
+      <p className="text-center mb-10 max-w-2xl mx-auto ">
         We proudly collaborate with these leading organizations to deliver the best services.
       </p>
 

@@ -33,7 +33,7 @@ const TopEnrolledClasses = () => {
 
         const sorted = classWithEnrollment
           .sort((a, b) => b.enrollmentCount - a.enrollmentCount)
-          .slice(0, 6);
+          .slice(0, 8);
 
         setTopClasses(sorted);
       } catch (err) {
@@ -49,30 +49,30 @@ const TopEnrolledClasses = () => {
   if (loading) return <Loading></Loading>;
   if (topClasses.length === 0) return null;
   return (
-    <div className="max-w-7xl mx-auto px-4 py-12">
+    <div className="max-w-8xl mx-auto px-4 py-12">
       <h2 className="text-3xl font-bold text-center mb-12 text-blue-600">
         Top Enrolled Classes
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {topClasses.map((cls) => (
           <div
             key={cls._id}
-            className="border rounded-lg shadow hover:shadow-lg transition p-4 flex flex-col"
+            className="bg-gray-100 rounded-lg shadow hover:shadow-lg transition p-4 flex flex-col"
           >
             <img
               src={cls.image}
               alt={cls.title}
               className="w-full h-40 object-cover rounded mb-4"
             />
-            <h3 className="text-xl font-semibold mb-1">{cls.title}</h3>
+            <h3 className="text-xl font-semibold text-black mb-1">{cls.title}</h3>
             <p className="text-gray-600 mb-2">Instructor: {cls.name}</p>
-            <p className="font-bold mb-2">Price: ৳{cls.price}</p>
-            <p className="mb-2 text-blue-700 font-medium">
+            <p className="font-bold text-black mb-2">Price: ৳{cls.price}</p>
+            <p className="mb-5 text-blue-700 font-medium">
               Total Enrolled: {cls.enrollmentCount}
             </p>
             <button
               onClick={() => navigate(`/class/${cls._id}`)}
-              className="mt-auto bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+              className="mt-auto mb-2 bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
             >
               View Class
             </button>

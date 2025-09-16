@@ -46,8 +46,8 @@ const SummarySection = () => {
   }, [axiosSecure]);
 
   return (
-    <section className="py-16 bg-white rounded-2xl">
-      <div className="max-w-7xl mx-auto px-6 flex flex-col-reverse lg:flex-row items-center gap-12">
+    <section className="py-16  rounded-2xl">
+      <div className="max-w-8xl mx-auto px-6 flex flex-col-reverse lg:flex-row items-center gap-12">
 
         {/* Summary Cards */}
         <div className="w-full lg:w-2/3 grid grid-cols-1 md:grid-cols-3 gap-6">
